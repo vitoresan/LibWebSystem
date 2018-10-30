@@ -1,0 +1,457 @@
+﻿<div ng-init="inicializar()">
+    <div class="container">
+        <h1>Cadastro de Livros</h1>
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+                        <ul class="nav nav-tabs card-header-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link" ng-class="formLivro === 'parte1' ? 'active' : ''" ng-click="alterarTabsFormLivro('parte1')">Parte1</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" ng-class="formLivro === 'parte2' ? 'active' : ''" ng-click="alterarTabsFormLivro('parte2')">Parte2</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" ng-class="formLivro === 'parte3' ? 'active' : ''" ng-click="alterarTabsFormLivro('parte3')">Parte3</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" ng-class="formLivro === 'parte4' ? 'active' : ''" ng-click="alterarTabsFormLivro('parte4')">Parte4</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <div ng-if="formLivro === 'parte1'">
+                            <div class="form-group">
+                                <label class="control-label font-weight-bold">Título:</label>
+                                <input required type="text" class="form-control" ng-model="livro.titulo">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label font-weight-bold" for="enderecolivro">Endereço:</label>
+                                <input type="text" class="form-control" id="enderecolivro" ng-model="livro.endereco">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label font-weight-bold">Autor:</label>
+                                <input required type="text" class="form-control" ng-model="livro.autor">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label font-weight-bold" for="nrpaginas">Nº de páginas :</label>
+                                <input type="number" class="form-control" id="paginaslivro" ng-model="livro.num_paginas">
+                            </div>
+                            <div>
+                                <label class="control-label font-weight-bold" for="curso">Cursos Relacionados:</label>
+                                <div class="input-group mb-3">
+                                    <input class="input-group form-control" ng-class="mensagem.ValidacaoCursos ? 'is-invalid' : ''" type="text" ng-model="livro.cursoRelacionado"
+                                           bs-options="curso for curso in camposSeletores.Cursos | filter:{'Descr':$viewValue}| limitTo: 5 "
+                                           placeholder="Digite o nome do curso"
+                                           bs-typeahead />
+                                    <div class="input-group-prepend">
+                                        <button class="btn btn-outline-secondary" ng-click="adicionarCursoRelacionado()" type="button" id="button-addon1">Adicionar</button>
+                                    </div>
+                                    <div ng-if="mensagem.ValidacaoCursos" class="invalid-feedback">
+                                        {{mensagem.ValidacaoCursos}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div ng-if="formLivro === 'parte2'">
+                           
+                            <div>
+                                <label class="control-label font-weight-bold" for="curso">Esquema de codificação:</label>
+                                <div class="input-group mb-3">
+                                    <input class="input-group form-control" ng-class="mensagem.ValidacaoEsquemaCodificacao ? 'is-invalid' : ''" type="text" ng-model="livro.esquemaCodificacao"
+                                           bs-options="esquema as esquema.Descr_Esquema_Codificacao for esquema in camposSeletores.Esquemas_Codificacao | filter:{'Descr_Esquema_Codificacao':$viewValue}| limitTo: 5 "
+                                           placeholder="Digite o esquema de codificação"
+                                           bs-typeahead />
+                                    <div class="input-group-prepend">
+                                        <button class="btn btn-outline-secondary" ng-click="adicionarEsquemaCodificacao()" type="button" id="button-addon1">Adicionar</button>
+                                    </div>
+                                    <div ng-if="mensagem.ValidacaoEsquemaCodificacao" class="invalid-feedback">
+                                        {{mensagem.ValidacaoEsquemaCodificacao}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="control-label font-weight-bold" for="curso">Forma de catalogação descritiva:</label>
+                                <div class="input-group mb-3">
+                                    <input class="input-group form-control" ng-class="mensagem.ValidacaoFormaCatalogacaoDescritiva ? 'is-invalid' : ''" type="text" ng-model="livro.formaCatalogacaoDescritiva"
+                                           bs-options="forma as forma.Descr_Forma_Catalogacao_Descritiva for forma in camposSeletores.Formas_Catalogacao_Descritiva | filter:{'Descr_Forma_Catalogacao_Descritiva':$viewValue}| limitTo: 5 "
+                                           placeholder="Digite forma de catalogação descritiva"
+                                           bs-typeahead />
+                                    <div class="input-group-prepend">
+                                        <button class="btn btn-outline-secondary" ng-click="adicionarFormasCatalogacaoDescritiva()" type="button" id="button-addon1">Adicionar</button>
+                                    </div>
+                                    <div ng-if="mensagem.ValidacaoFormaCatalogacaoDescritiva" class="invalid-feedback">
+                                        {{mensagem.ValidacaoFormaCatalogacaoDescritiva}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="control-label font-weight-bold" for="curso">Forma de Item:</label>
+                                <div class="input-group mb-3">
+                                    <input class="input-group form-control" ng-class="mensagem.ValidacaoFormaItem ? 'is-invalid' : ''" type="text" ng-model="livro.formaItem"
+                                           bs-options="forma as forma.Descr_Forma_Item for forma in camposSeletores.Formas_Item | filter:{'Descr_Forma_Item':$viewValue}| limitTo: 5 "
+                                           placeholder="Digite forma de item"
+                                           bs-typeahead />
+                                    <div class="input-group-prepend">
+                                        <button class="btn btn-outline-secondary" ng-click="adicionarFormasItem()" type="button" id="button-addon1">Adicionar</button>
+                                    </div>
+                                    <div ng-if="mensagem.ValidacaoFormaItem" class="invalid-feedback">
+                                        {{mensagem.ValidacaoFormaItem}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="control-label font-weight-bold" for="curso">Forma Literária:</label>
+                                <div class="input-group mb-3">
+                                    <input class="input-group form-control" ng-class="mensagem.ValidacaoFormaLiteraria ? 'is-invalid' : ''" type="text" ng-model="livro.formaLiteraria"
+                                           bs-options="forma as forma.Descr_Forma_Literaria for forma in camposSeletores.Formas_Literaria | filter:{'Descr_Forma_Literaria':$viewValue}| limitTo: 5 "
+                                           placeholder="Digite a forma literária"
+                                           bs-typeahead />
+                                    <div class="input-group-prepend">
+                                        <button class="btn btn-outline-secondary" ng-click="adicionarFormaLiteraria()" type="button" id="button-addon1">Adicionar</button>
+                                    </div>
+                                    <div ng-if="mensagem.ValidacaoFormaLiteraria" class="invalid-feedback">
+                                        {{mensagem.ValidacaoFormaLiteraria}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="control-label font-weight-bold" for="curso">Forma Material:</label>
+                                <div class="input-group mb-3">
+                                    <input class="input-group form-control" ng-class="mensagem.ValidacaoFormaMaterial ? 'is-invalid' : ''" type="text" ng-model="livro.formaMaterial"
+                                           bs-options="forma as forma.Descr_Forma_Material for forma in camposSeletores.Formas_Material | filter:{'Descr_Forma_Material':$viewValue}| limitTo: 5 "
+                                           placeholder="Digite a forma material"
+                                           bs-typeahead />
+                                    <div class="input-group-prepend">
+                                        <button class="btn btn-outline-secondary" ng-click="adicionarFormaMaterial()" type="button" id="button-addon1">Adicionar</button>
+                                    </div>
+                                    <div ng-if="mensagem.ValidacaoFormaMaterial" class="invalid-feedback">
+                                        {{mensagem.ValidacaoFormaMaterial}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="control-label font-weight-bold" for="curso">Tipos de ilustração:</label>
+                                <div class="input-group mb-3">
+                                    <input class="input-group form-control" ng-class="mensagem.ValidacaoIlustracaoTipo ? 'is-invalid' : ''" type="text" ng-model="livro.ilustracaoTipo"
+                                           bs-options="i as i.Descr_Ilustracao_Tipo for i in camposSeletores.Ilustracoes_Tipo | filter:{'Descr_Ilustracao_Tipo':$viewValue}| limitTo: 5 "
+                                           placeholder="Digite o tipo de ilustração"
+                                           bs-typeahead />
+                                    <div class="input-group-prepend">
+                                        <button class="btn btn-outline-secondary" ng-click="adicionarIlustracaoTipo()" type="button" id="button-addon1">Adicionar</button>
+                                    </div>
+                                    <div ng-if="mensagem.ValidacaoIlustracaoTipo" class="invalid-feedback">
+                                        {{mensagem.ValidacaoIlustracaoTipo}}
+                                    </div>
+                                </div>
+                            </div>
+                           
+                        </div>
+                        <div ng-if="formLivro === 'parte3'">
+
+                            <div>
+                                <label class="control-label font-weight-bold" for="curso">Nível codificação:</label>
+                                <div class="input-group mb-3">
+                                    <input class="input-group form-control" ng-class="mensagem.ValidacaoNivelCodificacao ? 'is-invalid' : ''" type="text" ng-model="livro.nivelCodificacao"
+                                           bs-options="i as i.Descr_Nivel_Codificacao for i in camposSeletores.Niveis_Codificacao | filter:{'Descr_Nivel_Codificacao':$viewValue}| limitTo: 5 "
+                                           placeholder="Digite o nivel de codificação  "
+                                           bs-typeahead />
+                                    <div class="input-group-prepend">
+                                        <button class="btn btn-outline-secondary" ng-click="adicionarNivelCodificacao()" type="button" id="button-addon1">Adicionar</button>
+                                    </div>
+                                    <div ng-if="mensagem.ValidacaoNivelCodificacao" class="invalid-feedback">
+                                        {{mensagem.ValidacaoNivelCodificacao}}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="control-label font-weight-bold" for="curso">Tipo de publicação governamental:</label>
+                                <div class="input-group mb-3">
+                                    <input class="input-group form-control" ng-class="mensagem.ValidacaoPublicacaoGovernamentalTipo ? 'is-invalid' : ''" type="text" ng-model="livro.publicacaoGovernamentalTipo"
+                                           bs-options="i as i.Descr_Publicacao_Governamental_Tipo for i in camposSeletores.Publicacao_Governamental_Tipos | filter:{'Descr_Publicacao_Governamental_Tipo':$viewValue}| limitTo: 5 "
+                                           placeholder="Digite o tipo de publicação governamental "
+                                           bs-typeahead />
+                                    <div class="input-group-prepend">
+                                        <button class="btn btn-outline-secondary" ng-click="adicionarPublicacaoGovernamentalTipo()" type="button" id="button-addon1">Adicionar</button>
+                                    </div>
+                                    <div ng-if="mensagem.ValidacaoPublicacaoGovernamentalTipo" class="invalid-feedback">
+                                        {{mensagem.ValidacaoPublicacaoGovernamentalTipo}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="control-label font-weight-bold" for="curso">Público Alvo:</label>
+                                <div class="input-group mb-3">
+                                    <input class="input-group form-control" ng-class="mensagem.ValidacaoPublicoAlvo ? 'is-invalid' : ''" type="text" ng-model="livro.publicoAlvo"
+                                           bs-options="i as i.Descr_Publico_Alvo for i in camposSeletores.Publicos_Alvos | filter:{'Descr_Publico_Alvo':$viewValue}| limitTo: 5 "
+                                           placeholder="Digite o publico alvo"
+                                           bs-typeahead />
+                                    <div class="input-group-prepend">
+                                        <button class="btn btn-outline-secondary" ng-click="adicionarPublicoAlvo()" type="button" id="button-addon1">Adicionar</button>
+                                    </div>
+                                    <div ng-if="mensagem.ValidacaoPublicoAlvo" class="invalid-feedback">
+                                        {{mensagem.ValidacaoPublicoAlvo}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="control-label font-weight-bold" for="curso">Status Registro:</label>
+                                <div class="input-group mb-3">
+                                    <input class="input-group form-control" ng-class="mensagem.ValidacaoStatusRegistro ? 'is-invalid' : ''" type="text" ng-model="livro.statusRegistro"
+                                           bs-options="i as i.Descr_Status_Registro for i in camposSeletores.Status_Registro | filter:{'Descr_Status_Registro':$viewValue}| limitTo: 5 "
+                                           placeholder="Digite o status do registro"
+                                           bs-typeahead />
+                                    <div class="input-group-prepend">
+                                        <button class="btn btn-outline-secondary" ng-click="adicionarStatusRegistro()" type="button" id="button-addon1">Adicionar</button>
+                                    </div>
+                                    <div ng-if="mensagem.ValidacaoStatusRegistro" class="invalid-feedback">
+                                        {{mensagem.ValidacaoStatusRegistro}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="control-label font-weight-bold" for="curso">Tipo Biografia:</label>
+                                <div class="input-group mb-3">
+                                    <input class="input-group form-control" ng-class="mensagem.ValidacaoBiografia ? 'is-invalid' : ''" type="text" ng-model="livro.biografiaTipo"
+                                           bs-options="bibliografia_tipo as bibliografia_tipo.Descr_Bibliografia_Tipo for bibliografia_tipo in camposSeletores.Biografias_Tipo | filter:{'Descr_Bibliografia_Tipo':$viewValue}| limitTo: 5 "
+                                           placeholder="Digite o tipo de biografia"
+                                           bs-typeahead />
+                                    <div class="input-group-prepend">
+                                        <button class="btn btn-outline-secondary" ng-click="adicionarBiografia()" type="button" id="button-addon1">Adicionar</button>
+                                    </div>
+                                    <div ng-if="mensagem.ValidacaoBiografia" class="invalid-feedback">
+                                        {{mensagem.ValidacaoBiografia}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-if="formLivro === 'parte4'">
+                            <div>
+                                <label class="control-label font-weight-bold" for="curso">Natureza do conteúdo:</label>
+                                <div class="input-group mb-3">
+                                    <input class="input-group form-control" ng-class="mensagem.ValidacaoNaturezaConteudo ? 'is-invalid' : ''" type="text" ng-model="livro.naturezaConteudo"
+                                           bs-options="i as i.Descr_Natureza_Conteudo for i in camposSeletores.Naturezas_Conteudo | filter:{'Descr_Natureza_Conteudo':$viewValue}| limitTo: 5 "
+                                           placeholder="Digite a natureza do conteúdo"
+                                           bs-typeahead />
+                                    <div class="input-group-prepend">
+                                        <button class="btn btn-outline-secondary" ng-click="adicionarNaturezaConteudo()" type="button" id="button-addon1">Adicionar</button>
+                                    </div>
+                                    <div ng-if="mensagem.ValidacaoNaturezaConteudo" class="invalid-feedback">
+                                        {{mensagem.ValidacaoNaturezaConteudo}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="control-label font-weight-bold" for="curso">Nível bibliográfico:</label>
+                                <div class="input-group mb-3">
+                                    <input class="input-group form-control" ng-class="mensagem.ValidacaoNivelBibliografico ? 'is-invalid' : ''" type="text" ng-model="livro.nivelBibliografico"
+                                           bs-options="i as i.Descr_Nivel_Bibliografico for i in camposSeletores.Niveis_Bibliograficos | filter:{'Descr_Nivel_Bibliografico':$viewValue}| limitTo: 5 "
+                                           placeholder="Digite o nivel bibliográfico  "
+                                           bs-typeahead />
+                                    <div class="input-group-prepend">
+                                        <button class="btn btn-outline-secondary" ng-click="adicionarNivelBibliografico()" type="button" id="button-addon1">Adicionar</button>
+                                    </div>
+                                    <div ng-if="mensagem.ValidacaoNivelBibliografico" class="invalid-feedback">
+                                        {{mensagem.ValidacaoNivelBibliografico}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="control-label font-weight-bold" for="curso">Nível de Várias Partes:</label>
+                                <div class="input-group mb-3">
+                                    <input class="input-group form-control" ng-class="mensagem.ValidacaoNivelVariasPartes ? 'is-invalid' : ''" type="text" ng-model="livro.nivelVariasPartes"
+                                           bs-options="i as i.Descr_Nivel_Varias_Partes for i in camposSeletores.Niveis_Varias_Partes | filter:{'Descr_Nivel_Varias_Partes':$viewValue}| limitTo: 5 "
+                                           placeholder="Digite o nivel de várias partes "
+                                           bs-typeahead />
+                                    <div class="input-group-prepend">
+                                        <button class="btn btn-outline-secondary" ng-click="adicionarNivelVariasPartes()" type="button" id="button-addon1">Adicionar</button>
+                                    </div>
+                                    <div ng-if="mensagem.ValidacaoNivelVariasPartes" class="invalid-feedback">
+                                        {{mensagem.ValidacaoNivelVariasPartes}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="control-label font-weight-bold" for="curso">Tipo de Controle:</label>
+                                <div class="input-group mb-3">
+                                    <input class="input-group form-control" ng-class="mensagem.ValidacaoTipoControle ? 'is-invalid' : ''" type="text" ng-model="livro.tipoControle"
+                                           bs-options="i as i.Descr_Tipo_Controle for i in camposSeletores.Tipos_Controle | filter:{'Descr_Tipo_Controle':$viewValue}| limitTo: 5 "
+                                           placeholder="Digite o tipo de controle"
+                                           bs-typeahead />
+                                    <div class="input-group-prepend">
+                                        <button class="btn btn-outline-secondary" ng-click="adicionarTipoControle()" type="button" id="button-addon1">Adicionar</button>
+                                    </div>
+                                    <div ng-if="mensagem.ValidacaoTipoControle" class="invalid-feedback">
+                                        {{mensagem.ValidacaoTipoControle}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="control-label font-weight-bold" for="curso">Tipo de Registro:</label>
+                                <div class="input-group mb-3">
+                                    <input class="input-group form-control" ng-class="mensagem.ValidacaoTipoRegistro ? 'is-invalid' : ''" type="text" ng-model="livro.tipoRegistro"
+                                           bs-options="i as i.Descr_Tipo_Registro for i in camposSeletores.Tipos_Registro | filter:{'Descr_Tipo_Registro':$viewValue}| limitTo: 5 "
+                                           placeholder="Digite o tipo do registro"
+                                           bs-typeahead />
+                                    <div class="input-group-prepend">
+                                        <button class="btn btn-outline-secondary" ng-click="adicionarTipoRegistro()" type="button" id="button-addon1">Adicionar</button>
+                                    </div>
+                                    <div ng-if="mensagem.ValidacaoTipoRegistro" class="invalid-feedback">
+                                        {{mensagem.ValidacaoTipoRegistro}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="margin-top-20">
+                    <input class="button btn btn-primary" ng-click="cadastrarLivro()" value="Salvar Livro" />
+                    <input class="button btn btn-danger" ng-click="cancelar_cadastro()" value="Limpar Cadastro" />
+                </div>
+                <div ng-if="mensagem_retorno_cadastro" class="margin-top-20 alert" ng-class="statusRetornoCadastroLivro === true ? 'alert-success' : 'alert-danger'">
+                    <p>{{mensagem_retorno_cadastro}}</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+                        <h3> Informações Livro</h3>
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            <label class="font-weight-bold control-label">
+                                Título:
+                                <span class="font-weight-light font-italic">{{livro.titulo}}</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="font-weight-bold control-label">
+                                Autor:
+                                <span class="font-weight-light font-italic">{{livro.autor}}</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="font-weight-bold control-label">
+                                Endereço:
+                                <span class="font-weight-light font-italic">{{livro.endereco}}</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="font-weight-bold control-label">
+                                Nº de páginas:
+                                <span class="font-weight-light font-italic">{{livro.num_paginas}}</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="font-weight-bold control-label">
+                                Cursos relacionados:
+                                <span class="font-weight-light font-italic">{{infoLivro.cursos}}</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="font-weight-bold control-label">
+                                Tipos de biografia:
+                                <span class="font-weight-light font-italic">{{infoLivro.biografias}}</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="font-weight-bold control-label">
+                                Esquemas de codificação:
+                                <span class="font-weight-light font-italic">{{infoLivro.esquemasCodificacao}}</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="font-weight-bold control-label">
+                                Formas de catalogação descritiva:
+                                <span class="font-weight-light font-italic">{{infoLivro.formasCatalogacaoDescritiva}}</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="font-weight-bold control-label">
+                                Formas de Item:
+                                <span class="font-weight-light font-italic">{{infoLivro.formasItem}}</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="font-weight-bold control-label">
+                                Forma Literária:
+                                <span class="font-weight-light font-italic">{{infoLivro.formasLiterarias}}</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="font-weight-bold control-label">
+                                Forma do material:
+                                <span class="font-weight-light font-italic">{{infoLivro.formasMaterial}}</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="font-weight-bold control-label">
+                                Tipos de ilustração:
+                                <span class="font-weight-light font-italic">{{infoLivro.ilustracoes}}</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="font-weight-bold control-label">
+                                Natureza do conteúdo:
+                                <span class="font-weight-light font-italic">{{infoLivro.naturezas}}</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="font-weight-bold control-label">
+                                Nível bibliográfico:
+                                <span class="font-weight-light font-italic">{{infoLivro.niveisBibliograficos}}</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="font-weight-bold control-label">
+                                Nível codificação:
+                                <span class="font-weight-light font-italic">{{infoLivro.niveisCodificacao}}</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="font-weight-bold control-label">
+                                Nível de Várias Partes:
+                                <span class="font-weight-light font-italic">{{infoLivro.niveisVariasPartes}}</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="font-weight-bold control-label">
+                                Tipo de publicação governamental:
+                                <span class="font-weight-light font-italic">{{infoLivro.publicacoesGovernamentais}}</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="font-weight-bold control-label">
+                                Público Alvo:
+                                <span class="font-weight-light font-italic">{{infoLivro.publicos}}</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="font-weight-bold control-label">
+                                Status Registro:
+                                <span class="font-weight-light font-italic">{{infoLivro.status}}</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="font-weight-bold control-label">
+                                Tipo de Controle:
+                                <span class="font-weight-light font-italic">{{infoLivro.tiposControle}}</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="font-weight-bold control-label">
+                                Tipos de Registro:
+                                <span class="font-weight-light font-italic">{{infoLivro.tiposRegistro}}</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{37BC9FE5-517E-4F78-A1ED-BC4D5CF8C2C3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Infraestrutura</RootNamespace>
+    <AssemblyName>Infraestrutura</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Dapper, Version=1.40.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.1.42\lib\net40\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Domain\Core\Servico\Cursos.cs" />
+    <Compile Include="Domain\Core\Servico\FormularioCadastro.cs" />
+    <Compile Include="Domain\Core\Servico\Livros.cs" />
+    <Compile Include="Domain\Interfaces\IResultado.cs" />
+    <Compile Include="Domain\Interfaces\ISessao.cs" />
+    <Compile Include="Domain\Models\Curso.cs" />
+    <Compile Include="Domain\Models\Enum\StatusRetorno.cs" />
+    <Compile Include="Domain\Models\FormularioCadastro\Ilustracao_Tipo.cs" />
+    <Compile Include="Domain\Models\FormularioCadastro\Forma_Material.cs" />
+    <Compile Include="Domain\Models\FormularioCadastro\Forma_Literaria_Tipo.cs" />
+    <Compile Include="Domain\Models\FormularioCadastro\Forma_Item.cs" />
+    <Compile Include="Domain\Models\FormularioCadastro\Forma_Catalogacao_Descritiva.cs" />
+    <Compile Include="Domain\Models\FormularioCadastro\Esquema_Codificacao.cs" />
+    <Compile Include="Domain\Models\FormularioCadastro\Bibliografia_Tipo.cs" />
+    <Compile Include="Domain\Models\FormularioCadastro\CamposFormularioCadastro.cs" />
+    <Compile Include="Domain\Models\FormularioCadastro\Publico_Alvo.cs" />
+    <Compile Include="Domain\Models\FormularioCadastro\Status_Registro.cs" />
+    <Compile Include="Domain\Models\FormularioCadastro\Tipo_Registro.cs" />
+    <Compile Include="Domain\Models\FormularioCadastro\Tipo_Controle.cs" />
+    <Compile Include="Domain\Models\FormularioCadastro\Publicacao_Governamental_Tipo.cs" />
+    <Compile Include="Domain\Models\FormularioCadastro\Nivel_Varias_Partes.cs" />
+    <Compile Include="Domain\Models\FormularioCadastro\Nivel_Codificacao.cs" />
+    <Compile Include="Domain\Models\FormularioCadastro\Nivel_Bibliografico.cs" />
+    <Compile Include="Domain\Models\FormularioCadastro\Natureza_Conteudo.cs" />
+    <Compile Include="Domain\Models\Livro.cs" />
+    <Compile Include="Domain\Models\Resultado.cs" />
+    <Compile Include="Domain\Interfaces\IDatabase.cs" />
+    <Compile Include="Domain\Interfaces\IRepositorio.cs" />
+    <Compile Include="Domain\Models\Database.cs" />
+    <Compile Include="Domain\Models\Repositorio.cs" />
+    <Compile Include="Domain\Models\Sessao.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

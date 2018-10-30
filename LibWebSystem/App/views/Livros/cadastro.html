@@ -1,0 +1,205 @@
+﻿<div ng-init="inicializar()">
+    <div class="container">
+        <h1>Cadastro de Livros</h1>
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+                        <ul class="nav nav-tabs card-header-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link font-weight-bold" ng-class="formLivro === 'parte1' ? 'active' : ''" ng-click="alterarTabsFormLivro('parte1')">Dados Livro</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link font-weight-bold" ng-class="formLivro === 'parte2' ? 'active' : ''" ng-click="alterarTabsFormLivro('parte2')">Dados Adicionais</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <div ng-if="formLivro === 'parte1'">
+                            <div class="form-group">
+                                <label class="control-label font-weight-bold">Título:</label>
+                                <input required type="text" class="form-control" ng-class="mensagem.ValidacaoTitulo ? 'is-invalid' : ''" ng-model="livro.titulo">
+                                <div ng-if="mensagem.ValidacaoTitulo" class="invalid-feedback">
+                                    {{mensagem.ValidacaoTitulo}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label font-weight-bold">Autor:</label>
+                                <input required type="text" class="form-control" ng-class="mensagem.ValidacaoAutor ? 'is-invalid' : ''" ng-model="livro.autor">
+                                <div ng-if="mensagem.ValidacaoAutor" class="invalid-feedback">
+                                    {{mensagem.ValidacaoAutor}}
+                                </div>
+                            </div>
+                            <div class="form-group form-inline">
+                                <div class="form-group col-lg-6">
+                                    <label class="control-label font-weight-bold" for="ano_Publicacao">CDD:</label>
+                                    <input type="text" class="form-control" id="enderecolivro" ng-model="livro.cdd">
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label class="control-label font-weight-bold" for="ano_Publicacao">Qtd Exemplares:</label>
+                                    <input type="text" class="form-control" id="enderecolivro" ng-model="livro.qtd_Exemplares">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label font-weight-bold" for="ano_Publicacao">Ano de Publicação:</label>
+                                <input type="text" class="form-control" id="enderecolivro" ng-class="mensagem.ValidacaoAnoPublicacao ? 'is-invalid' : ''" ng-model="livro.ano_Publicacao">
+                                <div ng-if="mensagem.ValidacaoAnoPublicacao" class="invalid-feedback">
+                                    {{mensagem.ValidacaoAnoPublicacao}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label font-weight-bold" for="local_Publicacao">Local de Publicação:</label>
+                                <input type="text" class="form-control" id="enderecolivro" ng-class="mensagem.ValidacaoLocalPublicacao ? 'is-invalid' : ''" ng-model="livro.local_Publicacao">
+                                <div ng-if="mensagem.ValidacaoLocalPublicacao" class="invalid-feedback">
+                                    {{mensagem.ValidacaoLocalPublicacao}}
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-if="formLivro === 'parte2'">
+                            <div>
+                                <label class="control-label font-weight-bold" for="curso">Cursos Relacionados:</label>
+
+                                <div class="input-group mb-3">
+                                    <input class="input-group form-control" ng-class="mensagem.ValidacaoCursos ? 'is-invalid' : ''" type="text" ng-model="livro.cursoRelacionado"
+                                           bs-options="curso as curso.Descr for curso in camposSeletores.Cursos | filter:{'Descr':$viewValue}| limitTo: 5 "
+                                           placeholder="Digite o nome do curso"
+                                           bs-typeahead />
+                                    <div class="input-group-prepend">
+                                        <button class="btn btn-outline-secondary" ng-click="adicionarCursoRelacionado()" type="button" id="button-addon1">Adicionar</button>
+                                    </div>
+                                    <div ng-if="mensagem.ValidacaoCursos" class="invalid-feedback">
+                                        {{mensagem.ValidacaoCursos}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="control-label font-weight-bold" for="curso">Tipos de ilustração:</label>
+                                <div class="input-group mb-3">
+                                    <input class="input-group form-control" ng-class="mensagem.ValidacaoIlustracaoTipo ? 'is-invalid' : ''" type="text" ng-model="livro.ilustracaoTipo"
+                                           bs-options="i as i.Descr_Ilustracao_Tipo for i in camposSeletores.Ilustracoes_Tipo | filter:{'Descr_Ilustracao_Tipo':$viewValue}| limitTo: 5 "
+                                           placeholder="Digite o tipo de ilustração"
+                                           bs-typeahead />
+                                    <div class="input-group-prepend">
+                                        <button class="btn btn-outline-secondary" ng-click="adicionarIlustracaoTipo()" type="button" id="button-addon1">Adicionar</button>
+                                    </div>
+                                    <div ng-if="mensagem.ValidacaoIlustracaoTipo" class="invalid-feedback">
+                                        {{mensagem.ValidacaoIlustracaoTipo}}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="control-label font-weight-bold" for="curso">Público Alvo:</label>
+                                <div class="input-group mb-3">
+                                    <input class="input-group form-control" ng-class="mensagem.ValidacaoPublicoAlvo ? 'is-invalid' : ''" type="text" ng-model="livro.publicoAlvo"
+                                           bs-options="i as i.Descr_Publico_Alvo for i in camposSeletores.Publicos_Alvos | filter:{'Descr_Publico_Alvo':$viewValue}| limitTo: 5 "
+                                           placeholder="Digite o publico alvo"
+                                           bs-typeahead />
+                                    <div class="input-group-prepend">
+                                        <button class="btn btn-outline-secondary" ng-click="adicionarPublicoAlvo()" type="button" id="button-addon1">Adicionar</button>
+                                    </div>
+                                    <div ng-if="mensagem.ValidacaoPublicoAlvo" class="invalid-feedback">
+                                        {{mensagem.ValidacaoPublicoAlvo}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="control-label font-weight-bold" for="curso">Tipo Biografia:</label>
+                                <div class="input-group mb-3">
+                                    <input class="input-group form-control" ng-class="mensagem.ValidacaoBiografia ? 'is-invalid' : ''" type="text" ng-model="livro.biografiaTipo"
+                                           bs-options="bibliografia_tipo as bibliografia_tipo.Descr_Bibliografia_Tipo for bibliografia_tipo in camposSeletores.Biografias_Tipo | filter:{'Descr_Bibliografia_Tipo':$viewValue}| limitTo: 5 "
+                                           placeholder="Digite o tipo de biografia"
+                                           bs-typeahead />
+                                    <div class="input-group-prepend">
+                                        <button class="btn btn-outline-secondary" ng-click="adicionarBiografia()" type="button" id="button-addon1">Adicionar</button>
+                                    </div>
+                                    <div ng-if="mensagem.ValidacaoBiografia" class="invalid-feedback">
+                                        {{mensagem.ValidacaoBiografia}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+                        <h3> Informações Livro</h3>
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            <label class="font-weight-bold control-label">
+                                Título:
+                                <span class="font-weight-light font-italic">{{livro.titulo}}</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="font-weight-bold control-label">
+                                Autor:
+                                <span class="font-weight-light font-italic">{{livro.autor}}</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="font-weight-bold control-label">
+                                CDD:
+                                <span class="font-weight-light font-italic">{{livro.cdd}}</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="font-weight-bold control-label">
+                                Qtd. Exemplares:
+                                <span class="font-weight-light font-italic">{{livro.qtd_Exemplares}}</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="font-weight-bold control-label">
+                                Ano de Publicação:
+                                <span class="font-weight-light font-italic">{{livro.ano_Publicacao}}</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="font-weight-bold control-label">
+                                Local de Publicação:
+                                <span class="font-weight-light font-italic">{{livro.local_Publicacao}}</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="font-weight-bold control-label">
+                                Cursos relacionados:
+                                <span class="font-weight-light font-italic">{{infoLivro.cursos}}</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="font-weight-bold control-label">
+                                Tipos de biografia:
+                                <span class="font-weight-light font-italic">{{infoLivro.biografias}}</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="font-weight-bold control-label">
+                                Tipos de ilustração:
+                                <span class="font-weight-light font-italic">{{infoLivro.ilustracoes}}</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="font-weight-bold control-label">
+                                Público Alvo:
+                                <span class="font-weight-light font-italic">{{infoLivro.publicos}}</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="margin-top-20">
+                    <input class="button btn btn-primary" ng-click="cadastrarLivro()" value="Salvar Livro" />
+                    <input class="button btn btn-danger" ng-click="cancelar_cadastro()" value="Limpar Cadastro" />
+                </div>
+                <div ng-if="mensagem_retorno_cadastro" class="margin-top-20 alert" ng-class="statusRetornoCadastroLivro === true ? 'alert-success' : 'alert-danger'">
+                    <p>{{mensagem_retorno_cadastro}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
