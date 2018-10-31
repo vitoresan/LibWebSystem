@@ -2,12 +2,11 @@
 
     var app = angular.module('LibWebSystem');
 
-    var ConsultaLivrosController = function ($scope, $http, $log, LivrosService) {
+    var ConsultaLivrosController = function ($scope, $http, $log, LivrosService, tabelaPadrao) {
 
         $scope.inicializar = function () {
             $scope.checkAll = true;
             listarLivros();
-
         };
 
         $scope.retornarValorCampo = (campo) => {
@@ -37,20 +36,26 @@
                 .then(sucessoRetornarLivros, erroRetornarLivros)
         }
 
-       
 
         function sucessoRetornarLivros(response) {
             if (response.status === 200) {
                 $scope.livros = response.data.Valor;
-                $scope.livros.map(x => x.seExibeDados = false)
-                $('#pagination').pagination({
-                    dataSource: $scope.livros,
-                    callback: function (data, pagination) {
-                        // template method of yourself
-                        var html = template(data);
-                        dataContainer.html(html);
-                    }
+
+                tabelaPadrao.gerar({
+                    table: $('#tblLivros'),
+                    data: $scope.livros
                 })
+
+
+                //$scope.livros.map(x => x.seExibeDados = false)
+                //$('#pagination').pagination({
+                //    dataSource: $scope.livros,
+                //    callback: function (data, pagination) {
+                //        // template method of yourself
+                //        var html = template(data);
+                //        dataContainer.html(html);
+                //    }
+                //})
 
             }
             else {
