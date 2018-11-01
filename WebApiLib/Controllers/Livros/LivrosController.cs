@@ -22,6 +22,13 @@ namespace WebApiLib.Controllers.Livros
             return bdLivros.CadastrarLivro(livro);
         }
 
+        [Route("EditarLivro")]
+        [HttpPost]
+        public IResultado EditarLivro([FromBody]Livro livro)
+        {
+            return bdLivros.EditarLivro(livro);
+        }
+
         [Route("RetornarLivros")]
         [HttpGet]
         public IResultado RetornarLivros()
@@ -33,6 +40,20 @@ namespace WebApiLib.Controllers.Livros
             catch(System.Exception ex)
             {
                 return new Resultado($"Ocorreram erros ao listar livros. Detalhes {ex.Message}", statusRetorno.Erro);
+            }
+        }
+
+        [Route("RetornarLivroPorID/{idLivro}")]
+        [HttpGet]
+        public IResultado RetornarLivroPorID(int idLivro)
+        {
+            try
+            {
+                return new Resultado<Livro>($"Sucesso ao listar livro por ID.", statusRetorno.OK, bdLivros.RetornarLivroPorID(idLivro));
+            }
+            catch(System.Exception ex)
+            {
+                return new Resultado($"Ocorreram erros ao listar livro por ID. Detalhes {ex.Message}", statusRetorno.Erro);
             }
         }
     }

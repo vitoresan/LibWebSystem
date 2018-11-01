@@ -1,6 +1,6 @@
 ﻿<div ng-init="inicializar()">
     <div class="container">
-        <h1>Consulta de Livros</h1>
+        <h1>Consulta</h1>
         <hr>
         <div class="row">
             <div class="col">
@@ -14,6 +14,7 @@
                                 <th data-sortable="true" data-sorter="alphanum" data-field="CDD">CDD</th>
                                 <th data-sortable="true" data-sorter="alphanum" data-field="Qtd_Exemplares">Qtd.</th>
                                 <th data-sortable="true" data-sorter="alphanum" data-field="Ano_Publicacao">Ano Public.</th>
+                                <th class="text-center" data-formatter="operacaoEditar" data-events="operacaoEditarIndex">Editar</th>
                             </tr>
                         </thead>
                     </table>
@@ -59,4 +60,5 @@
             </div>
         </div>
     </div>
+    <div ng-include="'views/Livros/modalEdicao.html'"></div>
 </div>

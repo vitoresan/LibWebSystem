@@ -162,12 +162,23 @@
     <Content Include="App\js\Service\FormularioCadastroLivroService.js" />
     <Content Include="App\js\Service\LivrosService.js" />
     <Content Include="App\tableDiv.js" />
+    <Content Include="App\views\Livros\edicao.html" />
     <Content Include="App\views\home.html" />
     <Content Include="App\views\Livros\cadastro.html" />
     <Content Include="App\views\Livros\consulta.html" />
     <Content Include="App\views\Livros\cadastroCompleto.html" />
+    <Content Include="App\views\Livros\modalCadastro.html" />
+    <Content Include="App\views\Livros\modalDetalhes.html" />
+    <Content Include="App\views\Livros\modalEdicao.html" />
+    <Content Include="App\views\Toast\toast.html" />
     <Content Include="Content\animate.min.css" />
     <Content Include="Content\angular-motion.min.css" />
+    <Content Include="Scripts\angular-input-mask\angular-input-masks-standalone.js" />
+    <Content Include="Scripts\angular-input-mask\angular-input-masks-standalone.min.js" />
+    <Content Include="Scripts\angular-input-mask\angular-input-masks.br.js" />
+    <Content Include="Scripts\angular-input-mask\angular-input-masks.ch.js" />
+    <Content Include="Scripts\angular-input-mask\angular-input-masks.js" />
+    <Content Include="Scripts\angular-input-mask\angular-input-masks.us.js" />
     <Content Include="Scripts\bootstrap-table-export.js" />
     <Content Include="Scripts\bootstrap-table.css" />
     <Content Include="Scripts\bootstrap-table.min.css" />
@@ -256,6 +267,12 @@
     <Content Include="Scripts\angular.min.js.map" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\popper.min.js" />
+    <Content Include="Scripts\Toastr\angular-toastr.css" />
+    <Content Include="Scripts\Toastr\angular-toastr.js" />
+    <Content Include="Scripts\Toastr\angular-toastr.min.css" />
+    <Content Include="Scripts\Toastr\angular-toastr.min.js" />
+    <Content Include="Scripts\Toastr\angular-toastr.tpls.js" />
+    <Content Include="Scripts\Toastr\angular-toastr.tpls.min.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

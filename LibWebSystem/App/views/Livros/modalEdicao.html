@@ -1,0 +1,28 @@
+﻿<div ng-init="inicializar()" ng-controller="CadastroLivrosController">
+    <div id="modalEdicaoLivro" class="modal fade bs-example-modal-sm" tabindex="-1" data-backdrop="static" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Editar Livro</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="col-lg-6 pre-scrollable">
+                        <div ng-include="'views/Livros/modalCadastro.html'"></div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div ng-include="'views/Livros/modalDetalhes.html'"></div>
+                    </div>
+                    <input type="button"
+                           class="btn btn-primary"
+                           value="Salvar"
+                           ng-click="editarLivro()" />
+                    <input type="button"
+                           class="btn btn-danger"
+                           value="Cancelar"
+                           ng-click="limparCadastro()"
+                           data-dismiss="modal" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

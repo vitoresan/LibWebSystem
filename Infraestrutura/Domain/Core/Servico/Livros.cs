@@ -43,6 +43,48 @@ namespace Infraestrutura.Domain.Core.Servico.Livros
             }
         }
 
+        public IResultado EditarLivro(Livro livro)
+        {
+            _sessao = new Sessao(_database);
+            _repositorio = new Repositorio(_sessao);
+
+            try
+            {
+                _sessao.Begin();
+
+                EditarLivroBd(livro, _sessao, _repositorio);
+
+                _sessao.Commit();
+
+                return new Resultado($"O livro {livro.Titulo}, foi editado com sucesso.", statusRetorno.OK);
+            }
+            catch(Exception ex)
+            {
+                _sessao.Rollback();
+                return new Resultado($"Ocorreram erros ao editar o livro. Detalhes: {ex.Message}", statusRetorno.Erro);
+            }
+        }
+
+        private void EditarLivroBd(Livro livro, ISessao sessao = null, IRepositorio repositorio = null)
+        {
+            _repositorio.Execute(gerarInsertEdicaoLivro(), new
+            {
+                livro.Id,
+                livro.Titulo,
+                livro.Autor,
+                livro.Endereco,
+                livro.Num_Paginas,
+                livro.Ano_Publicacao,
+                livro.Local_Publicacao,
+                livro.CDD,
+                livro.Qtd_Exemplares,
+                DataCadastro = DateTime.Now,
+                livro.Se_Emprestado
+            });
+
+            inserirCamposLivroBD(livro, _sessao, _repositorio);
+        }
+
         private void InserirLivroBd(Livro livro, ISessao sessao = null, IRepositorio repositorio = null)
         {
             livro.Id = _repositorio.Query<int>(gerarInsertLivro(), new
@@ -59,7 +101,12 @@ namespace Infraestrutura.Domain.Core.Servico.Livros
                 livro.Se_Emprestado
             }).First();
 
-             
+            inserirCamposLivroBD(livro, _sessao, _repositorio);
+
+        }
+
+        private void inserirCamposLivroBD(Livro livro, ISessao sessao, IRepositorio repositorio)
+        {
             CadastrarCursosRelacionados(livro, _sessao, _repositorio);
 
             CadastrarBiografiaTipo(livro, _sessao, _repositorio);
@@ -67,7 +114,34 @@ namespace Infraestrutura.Domain.Core.Servico.Livros
             CadastrarIlustracaoTipo(livro, _sessao, _repositorio);
 
             CadastrarPublicoAlvo(livro, _sessao, _repositorio);
+        }
 
+        public Livro RetornarLivroPorID(int id)
+        {
+            _sessao = new Sessao(_database);
+            _repositorio = new Repositorio(_sessao);
+
+            var livro = _repositorio.Query<Livro>(gerarSelectLivroPorID(), new
+            {
+                id
+            }).FirstOrDefault();
+
+            livro.CamposLivro = retornarCamposLivro(livro.Id);
+
+            return livro;
+        }
+
+        private string gerarSelectLivroPorID()
+        {
+            return @"
+                ;with LivroAtivo as(
+                SELECT Id, max(data__Cadastro) DataCadastro FROM DBO.LIVROS 
+                group by Id
+                )
+                SELECT * FROM dbo.Livros l
+                	inner join LivroAtivo on LivroAtivo.Id = l.Id and LivroAtivo.DataCadastro = l.Data__Cadastro
+                Where l.id = @id
+";
         }
 
         private void InserirLivroTodosCamposBd(Livro livro, ISessao sessao = null, IRepositorio repositorio = null)
@@ -114,6 +188,96 @@ namespace Infraestrutura.Domain.Core.Servico.Livros
             CadastrarTipoControle(idLivro, livro.CamposLivro.Tipos_Controle, _sessao, _repositorio);
 
             CadastrarTipoRegistro(idLivro, livro.CamposLivro.Tipos_Registro, _sessao, _repositorio);
+        }
+
+        public void CadastrarCursosRelacionados(Livro livro, ISessao _sessao = null, IRepositorio _repositorio = null)
+        {
+            if(livro.CamposLivro.Cursos.Count() == 0)
+            {
+                return;
+            }
+
+            bool novaSessao = false;
+            int cursosInseridos = 0;
+
+            try
+            {
+
+                if(_sessao == null)
+                {
+                    novaSessao = true;
+                    _sessao = new Sessao(_database);
+                    _repositorio = new Repositorio(_sessao);
+                    _sessao.Begin();
+                }
+
+                livro.CamposLivro.Cursos.ForEach(curso =>
+                {
+                    _repositorio.Execute(gerarInsertCursosRelacionados(), new { idLivro = livro.Id, idCurso = curso.Id });
+                    cursosInseridos++;
+                });
+
+                if(cursosInseridos != livro.CamposLivro.Cursos.Count())
+                {
+                    throw new Exception("Erro ao cadastrar cursos relacionados.");
+                }
+
+                if(novaSessao)
+                    _sessao.Commit();
+
+            }
+            catch(Exception ex)
+            {
+                _sessao.Rollback();
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public List<Livro> RetornarLivros()
+        {
+
+            var queryLivros = $@"
+                    ;with LivroAtivo as (
+                         SELECT Id, max(data__Cadastro)DataCadastro FROM DBO.LIVROS
+                        group by Id
+                    )
+                   SELECT * FROM dbo.Livros l
+                       INNER JOIN LivroAtivo 
+                            on LivroAtivo.Id = l.Id 
+                            and LivroAtivo.DataCadastro = l.Data__Cadastro order by l.Id desc";
+
+            try
+            {
+                _sessao = new Sessao(_database);
+                _repositorio = new Repositorio(_sessao);
+
+
+                var livros = _repositorio.Query<Livro>(queryLivros).ToList();
+
+                livros.ForEach(x =>
+                {
+                    x.CamposLivro = retornarCamposLivro(x.Id);
+                });
+
+                return livros;
+
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private CamposCadastroLivro retornarCamposLivro(int idLivro)
+        {
+            var camposLivro = new CamposCadastroLivro();
+
+            camposLivro.Cursos = _repositorio.Query<Curso>(gerarConsultaCursosRelacionadosPorID(), new { idLivro }).ToList();
+            camposLivro.Ilustracoes_Tipo = _repositorio.Query<Ilustracao_Tipo>(gerarConsultaIlustracoesTipoPorID(), new { idLivro }).ToList();
+            camposLivro.Publicos_Alvos = _repositorio.Query<Publico_Alvo>(gerarConsultaPublicosAlvosPorID(), new { idLivro }).ToList();
+            camposLivro.Biografias_Tipo = _repositorio.Query<Biografia_Tipo>(gerarConsultaBiografiaTipoPorID(), new { idLivro }).ToList();
+
+            return camposLivro;
         }
 
         private void CadastrarTipoRegistro(int idLivro, List<Tipo_Registro> tiposRegistro, ISessao sessao = null, IRepositorio repositorio = null)
@@ -808,195 +972,314 @@ namespace Infraestrutura.Domain.Core.Servico.Livros
         private string gerarInsertCursosRelacionados()
         {
             return $@"
-                 INSERT INTO [dbo].[Cursos_Relacionados_Livro]
-                       ([Id_Livro]
-                       ,[Id_Curso])
-                 VALUES
-                       (@idLivro
-                       ,@idCurso)";
+                 IF NOT EXISTS(
+                    SELECT * FROM [dbo].[Cursos_Relacionados_Livro]
+                    WHERE [Id_Livro]  = @idLivro
+                          and [Id_Curso] = @idCurso)
+                 BEGIN
+                    INSERT INTO [dbo].[Cursos_Relacionados_Livro]
+                          ([Id_Livro]
+                          ,[Id_Curso])
+                    VALUES
+                          (@idLivro
+                          ,@idCurso)
+                 END";
         }
 
         private string gerarInsertBiografiaTipoLivro()
         {
             return $@"
-                 INSERT INTO [dbo].[Biografia_Tipo_Livro]
-                       ([Id_Livro]
-                       ,[Id_Biografia_Tipo])
-                 VALUES
-                       (@idLivro
-                       ,@idBiografiaTipo)";
+                IF NOT EXISTS(
+                    SELECT * FROM [dbo].[Biografia_Tipo_Livro]
+                    WHERE [Id_Livro]  = @idLivro
+                          and [Id_Biografia_Tipo] = @idBiografiaTipo)
+                 BEGIN
+                    INSERT INTO [dbo].[Biografia_Tipo_Livro]
+                          ([Id_Livro]
+                          ,[Id_Biografia_Tipo])
+                    VALUES
+                          (@idLivro
+                          ,@idBiografiaTipo)
+                 END";
         }
 
         private string gerarInsertEsquemaCodificacaoLivro()
         {
             return $@"
-                 INSERT INTO [dbo].[Esquema_Codificacao_Livro]
+                IF NOT EXISTS(
+                    SELECT * FROM [dbo].[Esquema_Codificacao_Livro]
+                    WHERE [Id_Livro]  = @idLivro
+                          and [Id_Esquema_Codificacao] = @idEsquemaCodificacao)
+ 
+                 BEGIN
+                    INSERT INTO [dbo].[Esquema_Codificacao_Livro]
                        ([Id_Livro]
                        ,[Id_Esquema_Codificacao])
-                 VALUES
+                    VALUES
                        (@idLivro
-                       ,@idEsquemaCodificacao)";
+                       ,@idEsquemaCodificacao)
+                 END";
         }
 
         private string gerarInsertFormaCatalogacaoDescritivaLivro()
         {
             return $@"
-                 INSERT INTO [dbo].[Forma_Catalogacao_Descritiva_Livro]
+                IF NOT EXISTS(
+                    SELECT * FROM [dbo].[Forma_Catalogacao_Descritiva_Livro]
+                    WHERE [Id_Livro]  = @idLivro
+                          and [Id_Forma_Catalogacao_Descritiva] = @idFormaCatalogacaoDescritiva)
+
+                BEGIN
+                     INSERT INTO [dbo].[Forma_Catalogacao_Descritiva_Livro]
                        ([Id_Livro]
                        ,[Id_Forma_Catalogacao_Descritiva])
-                 VALUES
+                    VALUES
                        (@idLivro
-                       ,@idFormaCatalogacaoDescritiva)";
+                       ,@idFormaCatalogacaoDescritiva)
+                END";
         }
 
         private string gerarInsertFormaItemLivro()
         {
             return $@"
-                 INSERT INTO [dbo].[Forma_Item_Livro]
+                IF NOT EXISTS(
+                    SELECT * FROM [dbo].[Forma_Item_Livro]
+                    WHERE [Id_Livro]  = @idLivro
+                          and [Id_Forma_Item] = @idFormaItem)
+
+                BEGIN
+                    INSERT INTO [dbo].[Forma_Item_Livro]
                        ([Id_Livro]
                        ,[Id_Forma_Item])
-                 VALUES
+                    VALUES
                        (@idLivro
-                       ,@idFormaItem)";
+                       ,@idFormaItem)
+                END";
         }
 
         private string gerarInsertFormaLiterariaTipoLivro()
         {
             return $@"
-                 INSERT INTO [dbo].[Forma_Literaria_Tipo_Livro]
+                IF NOT EXISTS(
+                    SELECT * FROM [dbo].[Forma_Literaria_Tipo_Livro]
+                    WHERE [Id_Livro]  = @idLivro
+                          and [Id_Forma_Literaria_Tipo] = @idFormaLiterariaTipo)
+
+                BEGIN
+                   INSERT INTO [dbo].[Forma_Literaria_Tipo_Livro]
                        ([Id_Livro]
                        ,[Id_Forma_Literaria_Tipo])
-                 VALUES
+                   VALUES
                        (@idLivro
-                       ,@idFormaLiterariaTipo)";
+                       ,@idFormaLiterariaTipo)
+                END";
         }
 
         private string gerarInsertFormaMaterialLivro()
         {
             return $@"
-                 INSERT INTO [dbo].[Forma_Material_Livro]
+                 IF NOT EXISTS(
+                    SELECT * FROM [dbo].[Forma_Material_Livro]
+                    WHERE [Id_Livro]  = @idLivro
+                          and [Id_Forma_Material] = @idFormaMaterial)
+
+                BEGIN
+                   INSERT INTO [dbo].[Forma_Material_Livro]
                        ([Id_Livro]
                        ,[Id_Forma_Material])
-                 VALUES
+                   VALUES
                        (@idLivro
-                       ,@idFormaMaterial)";
+                       ,@idFormaMaterial)
+                END";
         }
 
         private string gerarInsertIlustracaoTipoLivro()
         {
             return $@"
-                 INSERT INTO [dbo].[Ilustracao_Tipo_Livro]
+                 IF NOT EXISTS(
+                    SELECT * FROM [dbo].[Ilustracao_Tipo_Livro]
+                    WHERE [Id_Livro]  = @idLivro
+                          and [Id_Ilustracao_Tipo] = @idIlustracaoTipo)
+
+                BEGIN
+                   INSERT INTO [dbo].[Ilustracao_Tipo_Livro]
                        ([Id_Livro]
                        ,[Id_Ilustracao_Tipo])
-                 VALUES
+                   VALUES
                        (@idLivro
-                       ,@idIlustracaoTipo)";
+                       ,@idIlustracaoTipo)
+                END";
         }
 
         private string gerarInsertNaturezaConteudoLivro()
         {
             return $@"
-                 INSERT INTO [dbo].[Natureza_Conteudo_Livro]
+                 IF NOT EXISTS(
+                    SELECT * FROM [dbo].[Natureza_Conteudo_Livro]
+                    WHERE [Id_Livro]  = @idLivro
+                          and [Id_Natureza_Conteudo] = @idNaturezaConteudo)
+
+                BEGIN
+                   INSERT INTO [dbo].[Natureza_Conteudo_Livro]
                        ([Id_Livro]
                        ,[Id_Natureza_Conteudo])
-                 VALUES
+                   VALUES
                        (@idLivro
-                       ,@idNaturezaConteudo)";
+                       ,@idNaturezaConteudo)
+                END";
         }
 
         private string gerarInsertNivelBibliograficoLivro()
         {
             return $@"
-                 INSERT INTO [dbo].[Nivel_Bibliografico_Livro]
+                 IF NOT EXISTS(
+                    SELECT * FROM [dbo].[Nivel_Bibliografico_Livro]
+                    WHERE [Id_Livro]  = @idLivro
+                          and [Id_Nivel_Bibliografico] = @idNivelBibliografico)
+
+                BEGIN
+                   INSERT INTO [dbo].[Nivel_Bibliografico_Livro]
                        ([Id_Livro]
                        ,[Id_Nivel_Bibliografico])
-                 VALUES
+                   VALUES
                        (@idLivro
-                       ,@idNivelBibliografico)";
+                       ,@idNivelBibliografico)
+                END";
+
         }
 
         private string gerarInsertNivelCodificacaoLivro()
         {
             return $@"
-                 INSERT INTO [dbo].[Nivel_Codificacao_Livro]
+                 IF NOT EXISTS(
+                    SELECT * FROM [dbo].[Nivel_Codificacao_Livro]
+                    WHERE [Id_Livro]  = @idLivro
+                          and [Id_Nivel_Codificacao] = @idNivelCodificacao)
+
+                BEGIN
+                   INSERT INTO [dbo].[Nivel_Codificacao_Livro]
                        ([Id_Livro]
                        ,[Id_Nivel_Codificacao])
-                 VALUES
+                   VALUES
                        (@idLivro
-                       ,@idNivelCodificacao)";
+                       ,@idNivelCodificacao)
+                END";
         }
 
         private string gerarInsertNivelVariasPartesLivro()
         {
             return $@"
-                 INSERT INTO [dbo].[Nivel_Varias_Partes_Livro]
+                 IF NOT EXISTS(
+                    SELECT * FROM [dbo].[Nivel_Varias_Partes_Livro]
+                    WHERE [Id_Livro]  = @idLivro
+                          and [Id_Nivel_Varias_Partes] = @idNivelVariasPartes)
+
+                BEGIN
+                   INSERT INTO [dbo].[Nivel_Varias_Partes_Livro]
                        ([Id_Livro]
                        ,[Id_Nivel_Varias_Partes])
-                 VALUES
+                   VALUES
                        (@idLivro
-                       ,@idNivelVariasPartes)";
+                       ,@idNivelVariasPartes)
+                END";
         }
 
         private string gerarInsertPublicacaoGovernamentalTipoLivro()
         {
             return $@"
-                 INSERT INTO [dbo].[Publicacao_Governamental_Tipo_Livro]
+                 IF NOT EXISTS(
+                    SELECT * FROM [dbo].[Publicacao_Governamental_Tipo_Livro]
+                    WHERE [Id_Livro]  = @idLivro
+                          and [Id_Publicacao_Governamental_Tipo] = @idPublicacaoGovernamentalTipo)
+
+                BEGIN
+                   INSERT INTO [dbo].[Publicacao_Governamental_Tipo_Livro]
                        ([Id_Livro]
                        ,[Id_Publicacao_Governamental_Tipo])
-                 VALUES
+                   VALUES
                        (@idLivro
-                       ,@idPublicacaoGovernamentalTipo)";
+                       ,@idPublicacaoGovernamentalTipo)
+                END";
         }
 
         private string gerarInsertPublicoAlvoLivro()
         {
             return $@"
-                 INSERT INTO [dbo].[Publico_Alvo_Livro]
+                 IF NOT EXISTS(
+                    SELECT * FROM [dbo].[Publico_Alvo_Livro]
+                    WHERE [Id_Livro]  = @idLivro
+                          and [Id_Publico_Alvo] = @idPublicoAlvo)
+
+                BEGIN
+                   INSERT INTO [dbo].[Publico_Alvo_Livro]
                        ([Id_Livro]
                        ,[Id_Publico_Alvo])
-                 VALUES
+                   VALUES
                        (@idLivro
-                       ,@idPublicoAlvo)";
+                       ,@idPublicoAlvo)
+                END";
         }
 
         private string gerarInsertStatusRegistroLivro()
         {
             return $@"
-                 INSERT INTO [dbo].[Status_Registro_Livro]
+                 IF NOT EXISTS(
+                    SELECT * FROM [dbo].[Status_Registro_Livro]
+                    WHERE [Id_Livro]  = @idLivro
+                          and [Id_Status_Registro] = @idStatusRegistro)
+
+                BEGIN
+                   INSERT INTO [dbo].[Status_Registro_Livro]
                        ([Id_Livro]
                        ,[Id_Status_Registro])
-                 VALUES
+                   VALUES
                        (@idLivro
-                       ,@idStatusRegistro)";
+                       ,@idStatusRegistro)
+                END";
         }
 
         private string gerarInsertTipoControleLivro()
         {
             return $@"
-                 INSERT INTO [dbo].[Tipo_Controle_Livro]
+                 IF NOT EXISTS(
+                    SELECT * FROM [dbo].[Tipo_Controle_Livro]
+                    WHERE [Id_Livro]  = @idLivro
+                          and [Id_Tipo_Controle] = @idTipoControle)
+
+                BEGIN
+                   INSERT INTO [dbo].[Tipo_Controle_Livro]
                        ([Id_Livro]
                        ,[Id_Tipo_Controle])
-                 VALUES
+                   VALUES
                        (@idLivro
-                       ,@idTipoControle)";
+                       ,@idTipoControle)
+                END";
         }
 
         private string gerarInsertTipoRegistroLivro()
         {
             return $@"
-                 INSERT INTO [dbo].[Tipo_Registro_Livro]
+                 IF NOT EXISTS(
+                    SELECT * FROM [dbo].[Tipo_Registro_Livro]
+                    WHERE [Id_Livro]  = @idLivro
+                          and [Id_Tipo_Registro] = @idTipoRegistro)
+
+                BEGIN
+                   INSERT INTO [dbo].[Tipo_Registro_Livro]
                        ([Id_Livro]
                        ,[Id_Tipo_Registro])
-                 VALUES
+                   VALUES
                        (@idLivro
-                       ,@idTipoRegistro)";
+                       ,@idTipoRegistro)
+                END";
         }
 
-        private string gerarInsertLivro()
+        private string gerarInsertEdicaoLivro()
         {
             return $@"
                  INSERT INTO [dbo].[Livros]
-                       ([Titulo]
+                       ([Id]
+                       ,[Titulo]
                        ,[Autor]
                        ,[Num_Paginas]
                        ,[Endereco]
@@ -1007,7 +1290,39 @@ namespace Infraestrutura.Domain.Core.Servico.Livros
                        ,[Qtd_Exemplares]
                        ,[Data__Cadastro])
                  VALUES
-                       (@Titulo
+                       (@Id
+                       ,@Titulo
+                       ,@Autor
+                       ,@Num_Paginas
+                       ,@Endereco
+                       ,@Se_Emprestado
+                       ,@Ano_Publicacao
+                       ,@Local_Publicacao
+                       ,@CDD
+                       ,@Qtd_Exemplares
+                       ,@DataCadastro)";
+        }
+
+        private string gerarInsertLivro()
+        {
+            return $@"
+                 declare @idLivro int = (SELECT Max(Id) + 1 FROM [dbo].[Livros])
+                 
+                 INSERT INTO [dbo].[Livros]
+                       ([Id]
+                       ,[Titulo]
+                       ,[Autor]
+                       ,[Num_Paginas]
+                       ,[Endereco]
+                       ,[Se_Emprestado]
+                       ,[Ano_Publicacao]
+                       ,[Local_Publicacao]
+                       ,[CDD]
+                       ,[Qtd_Exemplares]
+                       ,[Data__Cadastro])
+                 VALUES
+                       (@idLivro
+                       ,@Titulo
                        ,@Autor
                        ,@Num_Paginas
                        ,@Endereco
@@ -1018,92 +1333,7 @@ namespace Infraestrutura.Domain.Core.Servico.Livros
                        ,@Qtd_Exemplares
                        ,@DataCadastro)
 
-                SELECT isNull(cast(SCOPE_IDENTITY() as int), 0)";
-        }
-
-        public void CadastrarCursosRelacionados(Livro livro, ISessao _sessao = null, IRepositorio _repositorio = null)
-        {
-            if(livro.CamposLivro.Cursos.Count() == 0)
-            {
-                return;
-            }
-
-            bool novaSessao = false;
-            int cursosInseridos = 0;
-
-            try
-            {
-
-                if(_sessao == null)
-                {
-                    novaSessao = true;
-                    _sessao = new Sessao(_database);
-                    _repositorio = new Repositorio(_sessao);
-                    _sessao.Begin();
-                }
-
-                livro.CamposLivro.Cursos.ForEach(curso =>
-                {
-                    _repositorio.Execute(gerarInsertCursosRelacionados(), new { idLivro = livro.Id, idCurso = curso.Id });
-                    cursosInseridos++;
-                });
-
-                if(cursosInseridos != livro.CamposLivro.Cursos.Count())
-                {
-                    throw new Exception("Erro ao cadastrar cursos relacionados.");
-                }
-
-                if(novaSessao)
-                    _sessao.Commit();
-
-            }
-            catch(Exception ex)
-            {
-                _sessao.Rollback();
-                throw new Exception(ex.Message);
-            }
-        }
-
-        public List<Livro> RetornarLivros()
-        {
-
-            var queryLivros = $@"
-                SELECT * FROM DBO.LIVROS ORDER BY LIVROS.Id Desc";
-
-
-
-            try
-            {
-                _sessao = new Sessao(_database);
-                _repositorio = new Repositorio(_sessao);
-
-
-                var livros = _repositorio.Query<Livro>(queryLivros).ToList();
-
-                livros.ForEach(x =>
-                {
-                    x.CamposLivro = retornarCamposLivro(x.Id);
-                });
-
-                return livros;
-
-            }
-            catch(Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        private CamposCadastroLivro retornarCamposLivro(int idLivro)
-        {
-            var camposLivro = new CamposCadastroLivro();
-
-            camposLivro.Cursos = _repositorio.Query<Curso>(gerarConsultaCursosRelacionadosPorID(), new { idLivro }).ToList();
-            camposLivro.Ilustracoes_Tipo = _repositorio.Query<Ilustracao_Tipo>(gerarConsultaIlustracoesTipoPorID(), new { idLivro }).ToList();
-            camposLivro.Publicos_Alvos = _repositorio.Query<Publico_Alvo>(gerarConsultaPublicosAlvosPorID(), new { idLivro }).ToList();
-            camposLivro.Biografias_Tipo = _repositorio.Query<Biografia_Tipo>(gerarConsultaBiografiaTipoPorID(), new { idLivro }).ToList();
-
-            return camposLivro;
+                SELECT @idLivro";
         }
 
         private string gerarConsultaCursosRelacionadosPorID()
@@ -1138,6 +1368,6 @@ namespace Infraestrutura.Domain.Core.Servico.Livros
                WHERE ID_LIVRO = @idLivro";
         }
 
-       
+
     }
 }

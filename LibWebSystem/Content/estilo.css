@@ -20,6 +20,11 @@
     background-clip: padding-box;
 }
 
+
+.modal-1200px {
+    width: 1200px !important;
+}
+
 .dropdown-menu > li > a {
     display: block;
     padding: 3px 20px;
