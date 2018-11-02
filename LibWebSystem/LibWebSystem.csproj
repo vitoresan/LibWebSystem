@@ -155,12 +155,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App\Index.html" />
-    <Content Include="App\js\Controllers\ConsultaLivrosController.js" />
-    <Content Include="App\js\Controllers\CadastroLivrosController.js" />
+    <Content Include="App\js\Controllers\Livros\ConsultaLivrosController.js" />
+    <Content Include="App\js\Controllers\Livros\CadastroLivrosController.js" />
     <Content Include="App\App.js" />
+    <Content Include="App\js\Controllers\Pessoa\UsuarioController.js" />
     <Content Include="App\js\Service\CursosService.js" />
     <Content Include="App\js\Service\FormularioCadastroLivroService.js" />
     <Content Include="App\js\Service\LivrosService.js" />
+    <Content Include="App\js\Service\UsuarioService.js" />
     <Content Include="App\tableDiv.js" />
     <Content Include="App\views\Livros\edicao.html" />
     <Content Include="App\views\home.html" />
@@ -170,6 +172,7 @@
     <Content Include="App\views\Livros\modalCadastro.html" />
     <Content Include="App\views\Livros\modalDetalhes.html" />
     <Content Include="App\views\Livros\modalEdicao.html" />
+    <Content Include="App\views\Pessoa\Usuario.html" />
     <Content Include="App\views\Toast\toast.html" />
     <Content Include="Content\animate.min.css" />
     <Content Include="Content\angular-motion.min.css" />
@@ -284,6 +287,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App\views\Usuario\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>

@@ -78,8 +78,7 @@ namespace Infraestrutura.Domain.Core.Servico.Livros
                 livro.Local_Publicacao,
                 livro.CDD,
                 livro.Qtd_Exemplares,
-                DataCadastro = DateTime.Now,
-                livro.Se_Emprestado
+                DataCadastro = DateTime.Now
             });
 
             inserirCamposLivroBD(livro, _sessao, _repositorio);
@@ -97,12 +96,33 @@ namespace Infraestrutura.Domain.Core.Servico.Livros
                 livro.Local_Publicacao,
                 livro.CDD,
                 livro.Qtd_Exemplares,
-                DataCadastro = DateTime.Now,
-                livro.Se_Emprestado
+                DataCadastro = DateTime.Now
             }).First();
+
+            inserirControleDeExemplares(livro.Id, livro.Qtd_Exemplares, _sessao, _repositorio);
 
             inserirCamposLivroBD(livro, _sessao, _repositorio);
 
+        }
+
+        private void inserirControleDeExemplares(int id, int qtd_Exemplares, ISessao sessao, IRepositorio repositorio)
+        {
+            string scriptInsertControleExemplar = gerarScriptInsertControleExemplar();
+            for(int i = 0; i < qtd_Exemplares; i++)
+                _repositorio.Execute(scriptInsertControleExemplar, new { idLivro = id });
+        }
+
+        private string gerarScriptInsertControleExemplar()
+        {
+            return @"
+                INSERT INTO [dbo].[Controle_Exemplares]
+                           ([Id]
+                           ,[Id_Livro]
+                           ,[Se_Emprestado])
+                     VALUES
+                           ((select isNull(max(id) + 1, 1) from [dbo].[Controle_Exemplares])
+                           ,@idLivro
+                           ,0)";
         }
 
         private void inserirCamposLivroBD(Livro livro, ISessao sessao, IRepositorio repositorio)
@@ -1283,7 +1303,6 @@ namespace Infraestrutura.Domain.Core.Servico.Livros
                        ,[Autor]
                        ,[Num_Paginas]
                        ,[Endereco]
-                       ,[Se_Emprestado]
                        ,[Ano_Publicacao]
                        ,[Local_Publicacao]
                        ,[CDD]
@@ -1295,7 +1314,6 @@ namespace Infraestrutura.Domain.Core.Servico.Livros
                        ,@Autor
                        ,@Num_Paginas
                        ,@Endereco
-                       ,@Se_Emprestado
                        ,@Ano_Publicacao
                        ,@Local_Publicacao
                        ,@CDD
@@ -1306,7 +1324,7 @@ namespace Infraestrutura.Domain.Core.Servico.Livros
         private string gerarInsertLivro()
         {
             return $@"
-                 declare @idLivro int = (SELECT Max(Id) + 1 FROM [dbo].[Livros])
+                 declare @idLivro int = (SELECT isNull(Max(Id),0) + 1 FROM [dbo].[Livros])
                  
                  INSERT INTO [dbo].[Livros]
                        ([Id]
@@ -1314,7 +1332,6 @@ namespace Infraestrutura.Domain.Core.Servico.Livros
                        ,[Autor]
                        ,[Num_Paginas]
                        ,[Endereco]
-                       ,[Se_Emprestado]
                        ,[Ano_Publicacao]
                        ,[Local_Publicacao]
                        ,[CDD]
@@ -1326,7 +1343,6 @@ namespace Infraestrutura.Domain.Core.Servico.Livros
                        ,@Autor
                        ,@Num_Paginas
                        ,@Endereco
-                       ,@Se_Emprestado
                        ,@Ano_Publicacao
                        ,@Local_Publicacao
                        ,@CDD

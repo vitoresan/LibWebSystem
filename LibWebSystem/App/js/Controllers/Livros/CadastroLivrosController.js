@@ -355,6 +355,7 @@
             }
             else {
                 $scope.statusRetornoCadastroLivro = false;
+                toastr.warning(response.data.Mensagem);
             }
         }
 
@@ -461,6 +462,16 @@
             if (!livro.Local_Publicacao) {
                 seCamposValidos = invalidarCadastroLivro();
                 toastr.warning("O campo Local de Publicação do livro é obrigatório!");
+            }
+
+            if (!livro.Qtd_Exemplares) {
+                seCamposValidos = invalidarCadastroLivro();
+                toastr.warning("O campo Qtd. de exemplares do livro é obrigatório");
+            }
+
+            if (livro.Qtd_Exemplares == 0) {
+                seCamposValidos = invalidarCadastroLivro();
+                toastr.warning("O campo Qtd. de exemplares deve ser preenchido corretamente para ser utilizado como controle de saída do livro.");
             }
 
             return seCamposValidos;

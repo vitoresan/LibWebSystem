@@ -19,6 +19,10 @@
                     templateUrl: 'views/Livros/edicao.html',
                     controller: 'CadastroLivrosController'
                 })
+                .when('/Usuario', {
+                    templateUrl: 'views/Pessoa/Usuario.html',
+                    controller: 'UsuarioController'
+                })
                 .otherwise({
                     templateUrl: 'views/home.html',
                     //controller: 'homeController'
