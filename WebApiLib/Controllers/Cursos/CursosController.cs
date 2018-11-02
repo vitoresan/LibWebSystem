@@ -4,11 +4,9 @@ using CursoService = Infraestrutura.Domain.Core.Servico;
 using Infraestrutura.Domain.Models.Enum;
 using System.Collections.Generic;
 using System.Web.Http;
-using System.Web.Http.Cors;
 
 namespace WebApiLib.Controllers.Cursos
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
     [RoutePrefix("Cursos")]
     public class CursosController : ApiController
     {

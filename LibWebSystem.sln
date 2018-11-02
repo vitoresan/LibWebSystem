@@ -4,8 +4,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.27703.2035
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibWebSystem", "LibWebSystem\LibWebSystem.csproj", "{7110316B-D4A8-467F-8601-667689582D0E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{37BC9FE5-517E-4F78-A1ED-BC4D5CF8C2C3} = {37BC9FE5-517E-4F78-A1ED-BC4D5CF8C2C3}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiLib", "WebApiLib\WebApiLib.csproj", "{8056D080-CC7E-4650-B5B0-13D920787408}"
+	ProjectSection(ProjectDependencies) = postProject
+		{37BC9FE5-517E-4F78-A1ED-BC4D5CF8C2C3} = {37BC9FE5-517E-4F78-A1ED-BC4D5CF8C2C3}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infraestrutura", "Infraestrutura\Infraestrutura.csproj", "{37BC9FE5-517E-4F78-A1ED-BC4D5CF8C2C3}"
 EndProject

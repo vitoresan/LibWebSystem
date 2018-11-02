@@ -4,12 +4,10 @@ using Infraestrutura.Domain.Models.Enum;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
-using System.Web.Http.Cors;
 using LivroService = Infraestrutura.Domain.Core.Servico.Livros;
 
 namespace WebApiLib.Controllers.Livros
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
     [RoutePrefix("Livros")]
     public class LivrosController : ApiController
     {

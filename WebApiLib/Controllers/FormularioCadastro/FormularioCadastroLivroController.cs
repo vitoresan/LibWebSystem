@@ -4,11 +4,9 @@ using Infraestrutura.Domain.Models;
 using Infraestrutura.Domain.Models.Enum;
 using FormularioCadastroService = Infraestrutura.Domain.Core.Servico.FormularioCadastro;
 using System.Web.Http;
-using System.Web.Http.Cors;
 
 namespace WebApiLib.Controllers.FormularioCadastro
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
     [RoutePrefix("FormularioCadastroLivro")]
     public class FormularioCadastroLivroController : ApiController
     {

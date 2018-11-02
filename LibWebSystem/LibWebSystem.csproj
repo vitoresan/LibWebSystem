@@ -155,9 +155,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App\Index.html" />
-    <Content Include="App\js\Controllers\Livros\ConsultaLivrosController.js" />
-    <Content Include="App\js\Controllers\Livros\CadastroLivrosController.js" />
     <Content Include="App\App.js" />
+    <Content Include="App\js\Controllers\Livros\CadastroLivrosController.js" />
+    <Content Include="App\js\Controllers\Livros\ConsultaLivrosController.js" />
     <Content Include="App\js\Controllers\Pessoa\UsuarioController.js" />
     <Content Include="App\js\Service\CursosService.js" />
     <Content Include="App\js\Service\FormularioCadastroLivroService.js" />

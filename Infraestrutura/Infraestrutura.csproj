@@ -58,6 +58,7 @@
     <Compile Include="Domain\Core\Servico\FormularioCadastro.cs" />
     <Compile Include="Domain\Core\Servico\Livros.cs" />
     <Compile Include="Domain\Core\Servico\Usuario.cs" />
+    <Compile Include="Domain\Core\Servico\UsuarioLogin.cs" />
     <Compile Include="Domain\Interfaces\IResultado.cs" />
     <Compile Include="Domain\Interfaces\ISessao.cs" />
     <Compile Include="Domain\Models\Curso.cs" />

@@ -1,14 +1,12 @@
 ﻿using Service = Infraestrutura.Domain.Core.Servico;
 using Infraestrutura.Domain.Interfaces;
 using System.Web.Http;
-using System.Web.Http.Cors;
 using Infraestrutura.Domain.Models;
 using System.Collections.Generic;
 using Infraestrutura.Domain.Models.Enum;
 
 namespace WebApiLib.Controllers.Pessoa
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
     [RoutePrefix("Usuario")]
     public class UsuarioController : ApiController
     {
