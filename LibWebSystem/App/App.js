@@ -7,6 +7,10 @@
     app
         .config(['$routeProvider', function ($routeProvider) {
             $routeProvider
+                .when('/Login', {
+                    templateUrl: 'views/Usuario/Login.html',
+                    controller: 'LoginController'
+                })
                 .when('/Livros/Cadastro', {
                     templateUrl: 'views/Livros/cadastro.html',
                     controller: 'CadastroLivrosController'
