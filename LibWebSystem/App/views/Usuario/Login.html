@@ -1,10 +1,15 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title></title>
-</head>
-<body>
+﻿<div ng-init="inicializar()">
+    <div class="container">
+        <div class="row">
+            <div class="form-group">
+                <label class="control-label font-weight-bold">Usuário:</label>
+                <input required type="text" class="form-control" ng-model="Usuario">
+            </div>
 
-</body>
-</html>
+            <div class="form-group">
+                <label class="control-label font-weight-bold">Senha:</label>
+                <input required type="password" class="form-control" ng-model="Senha">
+            </div>
+        </div>
+    </div>
+</div>
