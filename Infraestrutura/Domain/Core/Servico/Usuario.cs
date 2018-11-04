@@ -84,8 +84,8 @@ namespace Infraestrutura.Domain.Core.Servico
                 usuario.Email,
                 usuario.Telefone,
                 usuario.Se_Ativo,
-                DataCadastro = DateTime.Now
-            }).First();
+                Data_Cadastro = DateTime.Now
+            }).FirstOrDefault();
 
             usuario.Tipo.ForEach(x =>
                     repositorio.Execute(gerarInsertUsuarioTipo(), new
@@ -102,7 +102,11 @@ namespace Infraestrutura.Domain.Core.Servico
                 _sessao = new Sessao(_database);
                 _repositorio = new Repositorio(_sessao);
 
-                return _repositorio.Query<Models.Usuario>(gerarSelectUsuarioPorId(), new { idUsuario }).FirstOrDefault();
+                var usuario = _repositorio.Query<Models.Usuario>(gerarSelectUsuarioPorId(), new { idUsuario }).FirstOrDefault();
+
+                usuario.Tipo = _repositorio.Query<TipoUsuario>(gerarSelectTiposUsuariosPorUsuario(), new { idUsuario }).ToList();
+
+                return usuario;
             }
             catch(Exception ex)
             {
@@ -110,17 +114,20 @@ namespace Infraestrutura.Domain.Core.Servico
             }
         }
 
+        private string gerarSelectTiposUsuariosPorUsuario() => @"
+             SELECT tp.* FROM dbo.Pessoa_Tipo_Pessoa ptp
+                   INNER JOIN dbo.Tipo_Pessoa tp on tp.Id = ptp.Id_Tipo_Pessoa
+             WHERE ptp.Id_Pessoa = @idUsuario";
+
         private string gerarSelectUsuarioPorId() => @"
              ;with UsuarioAtivo as (
              SELECT Id, max(data_Cadastro)DataCadastro FROM DBO.Pessoa
                   group by Id
               )
-             SELECT * FROM dbo.Pessoa p
+             SELECT p.* FROM dbo.Pessoa p
                  INNER JOIN UsuarioAtivo 
                       on UsuarioAtivo.Id = p.Id 
                       and UsuarioAtivo.DataCadastro = p.Data_Cadastro
-                 INNER JOIN dbo.Pessoa_Tipo_Pessoa ptp 
-                      on ptp.Id_Pessoa = p.Id and Id_Tipo_Pessoa = @idTipoUsuario
              WHERE p.Id = @idUsuario
               order by p.Id desc";
 
@@ -137,6 +144,7 @@ namespace Infraestrutura.Domain.Core.Servico
 
         private string gerarInsertUsuario() =>
             @"
+                DECLARE @idPessoa as int = (SELECT isNull(max(id),0) + 1 FROM [dbo].[Pessoa])
                 INSERT INTO [dbo].[Pessoa]
                            ([Id]
                            ,[Nome]
@@ -146,13 +154,15 @@ namespace Infraestrutura.Domain.Core.Servico
                            ,[Se_Ativo]
                            ,[Data_Cadastro])
                      VALUES
-                           ((SELECT isNull(max(id),0) + 1 FROM [dbo].[Pessoa])
+                           (@idPessoa
                            ,@Nome
                            ,@Telefone
                            ,@Email
                            ,@CPF
                            ,@Se_Ativo
-                           ,@Data_Cadastro)";
+                           ,@Data_Cadastro)
+                SELECT @idPessoa
+";
 
         public IResultado EditarUsuario(Models.Usuario usuario)
         {
@@ -178,15 +188,16 @@ namespace Infraestrutura.Domain.Core.Servico
 
         private void EditarUsuarioBd(Models.Usuario usuario, ISessao sessao, IRepositorio repositorio)
         {
-            repositorio.Query<int>(gerarInsertEdicaoUsuario(), new
+            repositorio.Execute(gerarInsertEdicaoUsuario(), new
             {
                 usuario.Id,
                 usuario.Nome,
                 usuario.CPF,
                 usuario.Email,
                 usuario.Telefone,
-                DataCadastro = DateTime.Now
-            }).First();
+                usuario.Se_Ativo,
+                Data_Cadastro = DateTime.Now
+            });
 
             removerTipoUsuario(usuario.Id, sessao, repositorio);
 
@@ -208,7 +219,7 @@ namespace Infraestrutura.Domain.Core.Servico
 
         private string gerarDeleteUsuarioTipo() => @"
                 DELETE [DBO].[Pessoa_Tipo_Pessoa]
-                WHERE @Id_Pessoa = @id
+                WHERE Id_Pessoa = @id
                 ";
 
         private string gerarInsertEdicaoUsuario() =>
@@ -222,7 +233,7 @@ namespace Infraestrutura.Domain.Core.Servico
                            ,[Se_Ativo]
                            ,[Data_Cadastro])
                      VALUES
-                           (@Id)
+                           (@Id
                            ,@Nome
                            ,@Telefone
                            ,@Email
@@ -235,7 +246,7 @@ namespace Infraestrutura.Domain.Core.Servico
              SELECT Id, max(data_Cadastro)DataCadastro FROM DBO.Pessoa
                   group by Id
               )
-             SELECT * FROM dbo.Pessoa p
+             SELECT p.* FROM dbo.Pessoa p
                  INNER JOIN UsuarioAtivo 
                       on UsuarioAtivo.Id = p.Id 
                       and UsuarioAtivo.DataCadastro = p.Data_Cadastro

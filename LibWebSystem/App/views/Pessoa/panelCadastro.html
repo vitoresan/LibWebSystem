@@ -1,39 +1,55 @@
-﻿<div class="panel panel-default">
+﻿<div class="panel panel-default" ng-controller="UsuarioController">
     <div class="panel-heading">
         Dados do Usuário
     </div>
     <div class="panel-body">
         <div class="form-group col-lg-9">
-            <label class="control-label font-weight-bold">Nome:</label>
+            <label class="control-label">Nome:</label>
             <input required type="text" class="form-control" ng-class="!Usuario.Nome ? 'has-error' : ''" ng-model="Usuario.Nome">
         </div>
         <div class="form-group col-lg-3">
-            <label class="control-label font-weight-bold">CPF:</label>
-            <input required type="text" class="form-control" ng-class="!Usuario.CPF ? 'has-error' : ''" ng-model="Usuario.CPF">
+            <label class="control-label">CPF:</label>
+            <input required type="text" maxlength="11" class="form-control" ng-class="!Usuario.CPF ? 'has-error' : ''" ng-model="Usuario.CPF">
         </div>
         <div class="form-group col-lg-4">
-            <label class="control-label font-weight-bold">Telefone:</label>
-            <input required type="text" class="form-control" ng-class="!Usuario.Telefone ? 'has-error' : ''" ng-model="Usuario.Telefone">
+            <label class="control-label">Telefone:</label>
+            <input required type="text" ui-br-phone-number class="form-control" ng-class="!Usuario.Telefone ? 'has-error' : ''" ng-model="Usuario.Telefone">
         </div>
         <div class="form-group col-lg-8">
-            <label class="control-label font-weight-bold">Email:</label>
-            <input required type="text" class="form-control" ng-class="!Usuario.Email ? 'has-error' : ''" ng-model="Usuario.Email">
+            <label class="control-label">Email:</label>
+            <input required type="email" class="form-control" ng-class="!Usuario.Email ? 'has-error' : ''" ng-model="Usuario.Email">
+
         </div>
         <div class="form-group col-lg-6">
             <label class="control-label" for="tipo">
                 Tipo de usuário:
             </label>
-            <select id="tipo" class="form-control" type="text" ng-model="tipoUsuario"
+            <select id="tipo" class="form-control" type="text" ng-model="Usuario.tipoUsuario"
                     ng-options="tipo.Descr for tipo in tiposUsuarios"></select>
+            <span class="input-group-btn">
+                <button class="btn btn-default" ng-click="adicionarTipoUsuario(Usuario.tipoUsuario)" type="button">Adicionar</button>
+            </span>
         </div>
-        <div ng-show="Usuario.Tipo.Id === 1" class="col-lg-6">
-            <div class="form-group col-lg-6">
+        <div class="col-lg-6">
+            <div ng-show="Usuario.tipoUsuario.Id === 1" class="form-group col-lg-6">
                 <label class="control-label font-weight-bold">Login:</label>
                 <input required type="text" class="form-control" ng-class="!Usuario.Login ? 'has-error' : ''" ng-model="Usuario.Login">
             </div>
-            <div class="form-group col-lg-6">
+            <div ng-show="Usuario.tipoUsuario.Id === 1" class="form-group col-lg-6">
                 <label class="control-label font-weight-bold">Senha:</label>
                 <input required type="password" class="form-control" ng-class="!Usuario.Senha ? 'has-error' : ''" ng-model="Usuario.Senha">
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="col-lg-6">
+                <table class="table table-bordered table-striped" ng-show="Usuario.Tipo.length > 0">
+                    <tr>
+                        <th>Tipos:</th>
+                    </tr>
+                    <tr ng-repeat="tipo in Usuario.Tipo track by tipo.Id">
+                        <td>{{tipo.Descr}}</td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>

@@ -1,0 +1,11 @@
+﻿<div class="container" ng-init="inicializar()">
+    <div class="col-lg-12">
+        <h1>Edição de Usuários</h1>
+        <hr />
+        <div class="col-lg-12">
+            <div ng-include="'views/Pessoa/panelCadastro.html'"></div>
+            <input class="button btn btn-primary" ng-click="editarUsuario(Usuario)" value="Salvar Alterações" />
+            <input class="button btn btn-danger" ng-click="cancelarEdicao()" value="Cancelar" />
+        </div>
+    </div>
+</div>

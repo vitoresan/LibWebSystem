@@ -43,6 +43,7 @@
     <script src="../App/js/Controllers/Livros/CadastroLivrosController.js"></script>
     <script src="../App/js/Controllers/Livros/ConsultaLivrosController.js"></script>
     <script src="../App/js/Controllers/Pessoa/UsuarioController.js"></script>
+    <script src="../App/js/Controllers/Pessoa/UsuarioConsultaController.js"></script>
     <script src="../App/js/Service/LivrosService.js"></script>
     <script src="../App/js/Service/CursosService.js"></script>
     <script src="../App/js/Service/FormularioCadastroLivroService.js"></script>
@@ -66,10 +67,17 @@
                 </ul>
             </li>
             <li class="nav-item">
-                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Controle <span class="caret"></span></a>
+                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Empréstimo <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li><a href="#/Livros/Consulta">Empréstimo</a></li>
-                    <li><a href="#/Usuario/">Usuários</a></li>
+                    <li><a href="#/Emprestimo/Controle">Controle</a></li>
+                    <li><a href="#/Emprestimo/Consulta">Consulta</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Usuários <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#/Usuario/Cadastro">Cadastro</a></li>
+                    <li><a href="#/Usuario/Consulta/">Consulta</a></li>
                 </ul>
             </li>
         </ul>

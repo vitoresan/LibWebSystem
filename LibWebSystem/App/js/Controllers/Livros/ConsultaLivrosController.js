@@ -5,7 +5,6 @@
     var ConsultaLivrosController = function ($scope, $http, $log, $window, LivrosService, tabelaPadrao, toastr) {
 
         $scope.inicializar = function () {
-            $scope.checkAll = true;
             listarLivros();
         };
 
@@ -46,7 +45,7 @@
 
 
         function sucessoRetornarLivros(response) {
-            if (response.status === 200) {
+            if (response.data.Status === 1) {
                 $scope.Livros = response.data.Valor;
 
                 tabelaPadrao.gerar({
@@ -55,11 +54,13 @@
                 })
             }
             else {
+                toastr.warning('Erros ao consultar livros. ' + reason.Message);
                 return;
             }
         }
 
         function erroRetornarLivros(reason) {
+            toastr.warning('Erros ao consultar livros. ' + reason.Message);
             $log.debug(reason.Message);
             return;
         }

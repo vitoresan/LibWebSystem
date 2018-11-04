@@ -2,7 +2,7 @@
 
     var app = angular.module('LibWebSystem');
 
-    var UsuarioController = function ($scope, $http, $log, $window, UsuarioService, tabelaPadrao, toastr) {
+    var UsuarioController = function ($scope, $http, $log, $window, UsuarioService, toastr) {
 
         $scope.inicializar = function () {
             if ($window.location.hash == '#/Usuario/Editar')
@@ -12,6 +12,55 @@
                 popularTiposUsuario();
             }
         };
+
+        $scope.cancelarEdicao = function () {
+            limparUsuario();
+            $window.location.href = '#/Usuario/Consulta';
+        }
+
+        $scope.cadastrarUsuario = function (usuario) {
+            if (dadosValidos(usuario)) {
+                UsuarioService.Cadastrar(usuario).then(sucessoCadastrarUsuario, erroCadastrarUsuario)
+            }
+        }
+
+        $scope.editarUsuario = function (usuario) {
+            if (dadosValidos(usuario)) {
+                UsuarioService.Editar(usuario).then(sucessoEditarUsuario, erroEditarUsuario)
+            }
+        }
+
+        $scope.adicionarTipoUsuario = function (tipo) {
+            if ($scope.Usuario.Tipo.filter(x => x.Id === tipo.Id).length === 0) {
+                $scope.Usuario.Tipo.push(tipo);
+            }
+        };
+
+        $scope.removerTipoUsuario = function (tipo) {
+            $scope.Usuario.Tipo.remove(x => x.Id === tipo.Id);
+        };
+
+        $scope.cancelarCadastro = function (){
+            limparUsuario();
+        }
+
+        function sucessoEditarUsuario(response) {
+            if (response.data.Status === 1) {
+                toastr.success(response.data.Mensagem);
+                limparUsuario();
+                novoObjetoUsuario();
+                $window.location.href = '#/Usuario/Consulta'
+            }
+            else {
+                toastr.warning(response.data.Mensagem);
+            }
+        }
+
+        function erroEditarUsuario(reason) {
+            $scope.statusRetornoCadastroLivro = false;
+            toastr.warning("Ocorreram erros ao realizar edição: " + reason.Message);
+            return;
+        }
 
         function popularTiposUsuario() {
             UsuarioService.RetornarTiposUsuario().then(sucessoRetornarTiposUsuario, erroRetornarTiposUsuario)
@@ -27,23 +76,45 @@
         }
 
         function erroRetornarTiposUsuario(reason) {
-            toastr.warning("Erros ao listar tipos de usuário, " + reason.Message )
-        }
-
-        $scope.cadastrarUsuario = function (usuario) {
-            if (dadosValidos(usuario)) {
-                usuario.Tipo.push($scope.tipoUsuario);
-                UsuarioService.Cadastrar(usuario).then(sucessoCadastrarUsuario, erroCadastrarUsuario)
-            }
+            toastr.warning("Erros ao listar tipos de usuário, " + reason.Message)
         }
 
         function dadosValidos(usuario) {
-            return true;
+            var dadosValidos = true;
+
+            if (!usuario.Nome || usuario.Nome == "") {
+                dadosValidos = false;
+                toastr.info('O campo Nome é obrigatório')
+            }
+
+            if (!usuario.CPF || usuario.CPF == "") {
+                dadosValidos = false;
+                toastr.info('O campo CPF é obrigatório')
+            }
+
+            if (!usuario.Email || usuario.Email == "") {
+                dadosValidos = false;
+                toastr.info('O campo Email é obrigatório')
+            }
+
+            if (!usuario.Telefone || usuario.Telefone == "") {
+                dadosValidos = false;
+                toastr.info('O campo Telefone é obrigatório')
+            }
+
+            if (usuario.Tipo.length === 0) {
+                dadosValidos = false;
+                toastr.info('Ao menos um tipo de usuário é obrigatório.')
+            }
+
+            return dadosValidos;
         }
 
         function sucessoCadastrarUsuario(response) {
             if (response.data.Status === 1) {
+                limparUsuario();
                 toastr.success(response.data.Mensagem)
+                novoObjetoUsuario();
             }
             else {
                 toastr.warning(response.data.Mensagem)
@@ -55,6 +126,7 @@
         }
 
         function limparUsuario() {
+            $scope.tipoUsuario = {};
             $scope.Usuario = UsuarioService.NovoUsuario();
             UsuarioService.Usuario = UsuarioService.NovoUsuario();
         }

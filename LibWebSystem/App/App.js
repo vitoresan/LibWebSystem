@@ -21,8 +21,16 @@
                     templateUrl: 'views/Livros/edicao.html',
                     controller: 'CadastroLivrosController'
                 })
-                .when('/Usuario', {
-                    templateUrl: 'views/Pessoa/Usuario.html',
+                .when('/Usuario/Cadastro', {
+                    templateUrl: 'views/Pessoa/cadastro.html',
+                    controller: 'UsuarioController'
+                })
+                .when('/Usuario/Consulta', {
+                    templateUrl: 'views/Pessoa/consulta.html',
+                    controller: 'UsuarioConsultaController'
+                })
+                .when('/Usuario/Editar', {
+                    templateUrl: 'views/Pessoa/edicao.html',
                     controller: 'UsuarioController'
                 })
                 .otherwise({

@@ -12,7 +12,8 @@ app.factory('UsuarioService', ['$http', function ($http) {
             Email: '',
             CPF: '',
             Se_Ativo: true,
-            Tipo: []
+            Tipo: [],
+            tipoUsuario: {}
         }
     }
 
@@ -22,7 +23,12 @@ app.factory('UsuarioService', ['$http', function ($http) {
         Email: '',
         CPF: '',
         Se_Ativo: true,
-        Tipo: []
+        Tipo: [{
+            Id: 0,
+            Descr: ''
+        }],
+        tipoUsuario: {}
+
     }
 
     UsuarioService.RetornarTiposUsuario = function () {
@@ -32,6 +38,23 @@ app.factory('UsuarioService', ['$http', function ($http) {
     UsuarioService.Cadastrar = function (usuario) {
         return $http.post(app.WebApi + "Usuario/CadastrarUsuario/", usuario);
     };
+
+    UsuarioService.Editar = function (usuario) {
+        return $http.put(app.WebApi + "Usuario/EditarUsuario/", usuario);
+    };
+
+    UsuarioService.RetornarUsuariosEmprestimo = function () {
+        return $http.get(app.WebApi + "Usuario/RetornarUsuariosEmprestimo/");
+    };
+
+    UsuarioService.RetornarUsuariosSistema = function () {
+        return $http.get(app.WebApi + "Usuario/RetornarUsuariosSistema/");
+    };
+
+    UsuarioService.RetornarUsuarioPorID = function (idUsuario) {
+        return $http.get(app.WebApi + "Usuario/RetornarUsuarioPorId/" + idUsuario);
+    };
+
 
     return UsuarioService;
 

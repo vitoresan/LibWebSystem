@@ -16,8 +16,7 @@ namespace WebApiLib
             config.Formatters.JsonFormatter.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
             // Rotas da API da Web
             config.MapHttpAttributeRoutes();
-            var cors = new EnableCorsAttribute("*", "*", "*") { SupportsCredentials = true };
-            config.EnableCors(cors);
+            config.EnableCors();
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",

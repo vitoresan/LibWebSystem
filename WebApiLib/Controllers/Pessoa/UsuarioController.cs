@@ -22,7 +22,7 @@ namespace WebApiLib.Controllers.Pessoa
         }
 
         [Route("EditarUsuario")]
-        [HttpPost]
+        [HttpPut]
         public IResultado EditarUsuario([FromBody]Usuario usuario)
         {
             return bdUsuario.EditarUsuario(usuario);

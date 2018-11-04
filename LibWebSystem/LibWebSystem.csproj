@@ -158,6 +158,7 @@
     <Content Include="App\js\Controllers\Livros\ConsultaLivrosController.js" />
     <Content Include="App\js\Controllers\Livros\CadastroLivrosController.js" />
     <Content Include="App\App.js" />
+    <Content Include="App\js\Controllers\Pessoa\UsuarioConsultaController.js" />
     <Content Include="App\js\Controllers\Pessoa\UsuarioController.js" />
     <Content Include="App\js\Service\CursosService.js" />
     <Content Include="App\js\Service\FormularioCadastroLivroService.js" />
@@ -172,7 +173,10 @@
     <Content Include="App\views\Livros\modalCadastro.html" />
     <Content Include="App\views\Livros\modalDetalhes.html" />
     <Content Include="App\views\Livros\modalEdicao.html" />
-    <Content Include="App\views\Pessoa\Usuario.html" />
+    <Content Include="App\views\Pessoa\consulta.html" />
+    <Content Include="App\views\Pessoa\edicao.html" />
+    <Content Include="App\views\Pessoa\panelCadastro.html" />
+    <Content Include="App\views\Pessoa\cadastro.html" />
     <Content Include="App\views\Toast\toast.html" />
     <Content Include="Content\animate.min.css" />
     <Content Include="Content\angular-motion.min.css" />

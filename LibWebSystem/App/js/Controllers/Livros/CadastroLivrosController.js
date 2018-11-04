@@ -373,7 +373,7 @@
                 $window.location.href = '#/Livros/Consulta'
             }
             else {
-                $scope.statusRetornoCadastroLivro = false;
+                toastr.warning(response.data.Mensagem);
             }
         }
 
