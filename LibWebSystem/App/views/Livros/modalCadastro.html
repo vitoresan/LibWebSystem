@@ -13,11 +13,11 @@
         <div ng-if="formLivro === 'parte1'">
             <div class="form-group">
                 <label class="control-label font-weight-bold">Título:</label>
-                <input required type="text" class="form-control" ng-class="mensagem.ValidacaoTitulo ? 'is-invalid' : ''" ng-model="Livro.Titulo">
+                <input required type="text" class="form-control" ng-class="mensagem.ValidacaoTitulo ? 'has-error' : ''" ng-model="Livro.Titulo">
             </div>
             <div class="form-group">
                 <label class="control-label" for="autor">Autor:</label>
-                <input required type="text" id="autor" class="form-control" ng-class="mensagem.ValidacaoAutor ? 'is-invalid' : ''" ng-model="Livro.Autor">
+                <input required type="text" id="autor" class="form-control" ng-class="mensagem.ValidacaoAutor ? 'has-error' : ''" ng-model="Livro.Autor">
             </div>
             <div class="form-group col-lg-6">
                 <label class="control-label" for="cdd">CDD:</label>

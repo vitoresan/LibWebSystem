@@ -56,6 +56,25 @@ namespace Infraestrutura.Domain.Core.Servico
             }
         }
 
+        public List<TipoUsuario> RetornarTiposUsuario()
+        {
+            try
+            {
+                _sessao = new Sessao(_database);
+                _repositorio = new Repositorio(_sessao);
+
+                return _repositorio.Query<TipoUsuario>(gerarSelectTiposUsuario()).ToList();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private string gerarSelectTiposUsuario() => @"
+            SELECT * FROM DBO.Tipo_Pessoa
+            ";
+
         private void InserirUsuarioBd(Models.Usuario usuario, ISessao sessao, IRepositorio repositorio)
         {
             usuario.Id = repositorio.Query<int>(gerarInsertUsuario(), new
@@ -64,14 +83,15 @@ namespace Infraestrutura.Domain.Core.Servico
                 usuario.CPF,
                 usuario.Email,
                 usuario.Telefone,
+                usuario.Se_Ativo,
                 DataCadastro = DateTime.Now
             }).First();
 
-            usuario.Id_Tipo_Usuario.ForEach(x =>
+            usuario.Tipo.ForEach(x =>
                     repositorio.Execute(gerarInsertUsuarioTipo(), new
                     {
-                        usuario.Id,
-                        x
+                        Id_Pessoa = usuario.Id,
+                        Id_Tipo_Pessoa = x.Id
                     }));
         }
 
@@ -170,11 +190,11 @@ namespace Infraestrutura.Domain.Core.Servico
 
             removerTipoUsuario(usuario.Id, sessao, repositorio);
 
-            usuario.Id_Tipo_Usuario.ForEach(x =>
+            usuario.Tipo.ForEach(x =>
                     repositorio.Execute(gerarInsertUsuarioTipo(), new
                     {
-                        usuario.Id,
-                        x
+                        Id_Pessoa = usuario.Id,
+                        Id_Tipo_Pessoa = x.Id
                     }));
         }
 

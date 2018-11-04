@@ -1,0 +1,40 @@
+﻿<div class="panel panel-default">
+    <div class="panel-heading">
+        Dados do Usuário
+    </div>
+    <div class="panel-body">
+        <div class="form-group col-lg-9">
+            <label class="control-label font-weight-bold">Nome:</label>
+            <input required type="text" class="form-control" ng-class="!Usuario.Nome ? 'has-error' : ''" ng-model="Usuario.Nome">
+        </div>
+        <div class="form-group col-lg-3">
+            <label class="control-label font-weight-bold">CPF:</label>
+            <input required type="text" class="form-control" ng-class="!Usuario.CPF ? 'has-error' : ''" ng-model="Usuario.CPF">
+        </div>
+        <div class="form-group col-lg-4">
+            <label class="control-label font-weight-bold">Telefone:</label>
+            <input required type="text" class="form-control" ng-class="!Usuario.Telefone ? 'has-error' : ''" ng-model="Usuario.Telefone">
+        </div>
+        <div class="form-group col-lg-8">
+            <label class="control-label font-weight-bold">Email:</label>
+            <input required type="text" class="form-control" ng-class="!Usuario.Email ? 'has-error' : ''" ng-model="Usuario.Email">
+        </div>
+        <div class="form-group col-lg-6">
+            <label class="control-label" for="tipo">
+                Tipo de usuário:
+            </label>
+            <select id="tipo" class="form-control" type="text" ng-model="tipoUsuario"
+                    ng-options="tipo.Descr for tipo in tiposUsuarios"></select>
+        </div>
+        <div ng-show="Usuario.Tipo.Id === 1" class="col-lg-6">
+            <div class="form-group col-lg-6">
+                <label class="control-label font-weight-bold">Login:</label>
+                <input required type="text" class="form-control" ng-class="!Usuario.Login ? 'has-error' : ''" ng-model="Usuario.Login">
+            </div>
+            <div class="form-group col-lg-6">
+                <label class="control-label font-weight-bold">Senha:</label>
+                <input required type="password" class="form-control" ng-class="!Usuario.Senha ? 'has-error' : ''" ng-model="Usuario.Senha">
+            </div>
+        </div>
+    </div>
+</div>

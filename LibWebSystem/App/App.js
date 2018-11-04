@@ -3,6 +3,8 @@
     var app = angular.module('LibWebSystem', ['ngRoute', 'mgcrea.ngStrap', 'ui.utils.masks',  'mgcrea.ngStrap.tooltip', 'ngAnimate', 'toastr']);
 
     app.WebApi = 'http://localhost:56408/';
+    //app.WebApi = 'http://libappwebapi.apphb.com/';
+
 
     app
         .config(['$routeProvider', function ($routeProvider) {

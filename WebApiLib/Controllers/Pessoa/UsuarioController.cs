@@ -72,5 +72,19 @@ namespace WebApiLib.Controllers.Pessoa
             }
         }
 
+        [Route("RetornarTipos/")]
+        [HttpGet]
+        public IResultado RetornarTipos()
+        {
+            try
+            {
+                return new Resultado<List<TipoUsuario>>($"Sucesso ao listar tipos usuário.", statusRetorno.OK, bdUsuario.RetornarTiposUsuario());
+            }
+            catch(System.Exception ex)
+            {
+                return new Resultado($"Ocorreram erros ao listar tipos usuário. Detalhes {ex.Message}", statusRetorno.Erro);
+            }
+        }
+
     }
 }

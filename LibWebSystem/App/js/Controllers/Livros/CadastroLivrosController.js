@@ -418,10 +418,16 @@
             }
             else {
                 return;
+            }if (response.status === 200) {
+                $scope.camposSeletores = response.data.Valor;
+            }
+            else {
+                return;
             }
         }
 
         function erroRetornarDadosCamposSeletores(reason) {
+            toastr.warning("Erros ao listar combobox, " + reason.Message )
             $log.debug(reason.Message);
             return;
         }

@@ -6,21 +6,20 @@ namespace Infraestrutura.Domain.Models
 {
     public class Usuario
     {
-        [Obsolete]
         public Usuario()
         {
 
         }
 
         [JsonConstructor]
-        public Usuario(string nome, string telefone, string email, string cpf, bool se_Ativo, List<int> id_Tipo_Usuario)
+        public Usuario(string nome, string telefone, string email, string cpf, bool se_Ativo, List<TipoUsuario> tipo)
         {
             Nome = nome;
             Telefone = telefone;
             Email = email;
             CPF = cpf;
             Se_Ativo = se_Ativo;
-            Id_Tipo_Usuario = id_Tipo_Usuario;
+            Tipo = tipo;
         }
 
         public int Id { get; set; }
@@ -30,6 +29,6 @@ namespace Infraestrutura.Domain.Models
         public string CPF { get; set; }
         public bool Se_Ativo { get; set; }
         public string Data_Cadastro { get; set; }
-        public List<int> Id_Tipo_Usuario { get; set; }
+        public List<TipoUsuario> Tipo { get; set; }
     }
 }

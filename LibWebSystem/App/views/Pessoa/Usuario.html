@@ -1,1 +1,11 @@
-﻿
+﻿<div ng-init="inicializar()">
+    <div class="container" >
+        <h1>Cadastro de Usuários</h1>
+        <hr>
+        <div class="col-lg-12">
+            <div ng-include="'views/Pessoa/panelCadastro.html'"></div>
+            <input class="button btn btn-primary" ng-click="cadastrarUsuario(Usuario)" value="Salvar Usuário" />
+            <input class="button btn btn-danger" ng-click="cancelarCadastro()" value="Limpar Cadastro" />
+        </div>
+    </div>
+</div>
