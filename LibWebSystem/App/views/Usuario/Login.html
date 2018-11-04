@@ -1,4 +1,4 @@
-﻿<div ng-init="inicializar()">
+﻿<div>
     <div class="container">
         <div class="row">
             <h1>Login</h1>
@@ -11,6 +11,10 @@
             <div class="form-group">
                 <label class="control-label font-weight-bold">Senha:</label>
                 <input required type="password" class="form-control" ng-model="Senha">
+            </div>
+
+            <div class="margin-top-20">
+                <input class="button btn btn-primary" ng-click="login(Usuario, Senha)" value="Logar" />
             </div>
         </div>
     </div>
