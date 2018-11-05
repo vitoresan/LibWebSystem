@@ -21,6 +21,10 @@
                     templateUrl: 'views/Livros/edicao.html',
                     controller: 'CadastroLivrosController'
                 })
+                .when('/Emprestimo/Controle', {
+                    templateUrl: 'views/Emprestimo/controle.html',
+                    controller: 'EmprestimoController'
+                })
                 .when('/Usuario/Cadastro', {
                     templateUrl: 'views/Pessoa/cadastro.html',
                     controller: 'UsuarioController'

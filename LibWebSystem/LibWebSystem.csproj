@@ -155,6 +155,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App\Index.html" />
+    <Content Include="App\js\Controllers\Emprestimo\EmprestimoController.js" />
     <Content Include="App\js\Controllers\Livros\ConsultaLivrosController.js" />
     <Content Include="App\js\Controllers\Livros\CadastroLivrosController.js" />
     <Content Include="App\App.js" />
@@ -165,6 +166,8 @@
     <Content Include="App\js\Service\LivrosService.js" />
     <Content Include="App\js\Service\UsuarioService.js" />
     <Content Include="App\tableDiv.js" />
+    <Content Include="App\views\Emprestimo\controle.html" />
+    <Content Include="App\views\Emprestimo\modalEmprestimo.html" />
     <Content Include="App\views\Livros\edicao.html" />
     <Content Include="App\views\home.html" />
     <Content Include="App\views\Livros\cadastro.html" />

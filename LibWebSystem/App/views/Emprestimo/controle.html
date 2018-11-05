@@ -1,0 +1,19 @@
+﻿<div>
+    <div class="container">
+        <h2>Controle de Empréstimos</h2>
+        <hr>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                Operações
+            </div>
+            <div class="panel-body">
+                <button class="btn btn-info" data-toggle="modal" data-target="#modalEmprestimo">Empréstimo de Livro</button>
+                <button class="btn btn-info" data-toggle="modal" data-target="#modalDevolucao">Devolução de Livro</button>
+                <button class="btn btn-info">Consulta de Livro</button>
+                <button class="btn btn-info">Consulta de Usuário</button>
+            </div>
+        </div>
+    </div>
+    <div ng-include="'views/Emprestimo/modalEmprestimo.html'"></div>
+    <div ng-include="'views/Emprestimo/modalDevolucao.html'"></div>
+</div>

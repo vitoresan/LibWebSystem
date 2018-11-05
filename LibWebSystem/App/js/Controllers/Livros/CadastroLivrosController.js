@@ -43,13 +43,13 @@
         $scope.adicionarCursoRelacionado = function () {
 
             if (!$scope.Livro.CursoRelacionado) {
-                toastr.warning("Favor selecionar um curso da lista. Comece digitando alguma letra do curso desejado.");
+                toastr.info("Selecione um curso da lista. Comece digitando alguma letra do curso desejado.");
                 return;
             } else if (!$scope.Livro.CursoRelacionado.Descr) {
-                toastr.warning("Favor selecionar um curso da lista. Comece digitando alguma letra do curso desejado.");
+                toastr.info("Selecione um curso da lista. Comece digitando alguma letra do curso desejado.");
                 return;
             } else if (verificarSeObjetoJaPossuiItem($scope.Livro.CamposLivro.Cursos, $scope.Livro.CursoRelacionado)) {
-                toastr.warning(`O livro já possui o curso de ${$scope.Livro.CursoRelacionado.Descr}.`);
+                toastr.info(`O livro já possui o curso de ${$scope.Livro.CursoRelacionado.Descr}.`);
                 return;
             }
 
@@ -61,13 +61,13 @@
         $scope.adicionarBiografia = function () {
 
             if (!$scope.Livro.BiografiaTipo) {
-                toastr.warning("Favor selecionar um tipo da lista. Comece digitando alguma letra do tipo desejado.");
+                toastr.info("Selecione um tipo da lista. Comece digitando alguma letra do tipo desejado.");
                 return;
             } else if (!$scope.Livro.BiografiaTipo.Descr_Bibliografia_Tipo) {
-                toastr.warning("Favor selecionar um tipo da lista. Comece digitando alguma letra do tipo desejado.");
+                toastr.info("Selecione um tipo da lista. Comece digitando alguma letra do tipo desejado.");
                 return;
             } else if (verificarSeObjetoJaPossuiItem($scope.Livro.CamposLivro.Biografias_Tipo, $scope.Livro.BiografiaTipo)) {
-                toastr.warning(`O livro já possui o tipo de biografia: ${$scope.Livro.BiografiaTipo.Descr_Bibliografia_Tipo}.`);
+                toastr.info(`O livro já possui o tipo de biografia: ${$scope.Livro.BiografiaTipo.Descr_Bibliografia_Tipo}.`);
                 return;
             }
 
@@ -79,13 +79,13 @@
         $scope.adicionarEsquemaCodificacao = function () {
 
             if (!$scope.Livro.EsquemaCodificacao) {
-                toastr.warning("Favor selecionar um esquema da lista. Comece digitando alguma letra do esquema desejado.");
+                toastr.info("Selecione um esquema da lista. Comece digitando alguma letra do esquema desejado.");
                 return;
             } else if (!$scope.Livro.EsquemaCodificacao.Descr_Esquema_Codificacao) {
-                toastr.warning("Favor selecionar um esquema da lista. Comece digitando alguma letra do esquema desejado.");
+                toastr.info("Selecione um esquema da lista. Comece digitando alguma letra do esquema desejado.");
                 return;
             } else if (verificarSeObjetoJaPossuiItem($scope.Livro.CamposLivro.Esquemas_Codificacao, $scope.Livro.EsquemaCodificacao)) {
-                toastr.warning(`O livro já possui o esquema de codificação: ${$scope.Livro.EsquemaCodificacao.Descr_Esquema_Codificacao}.`);
+                toastr.info(`O livro já possui o esquema de codificação: ${$scope.Livro.EsquemaCodificacao.Descr_Esquema_Codificacao}.`);
                 return;
             }
 
@@ -97,13 +97,13 @@
         $scope.adicionarFormasCatalogacaoDescritiva = function () {
 
             if (!$scope.Livro.FormaCatalogacaoDescritiva) {
-                toastr.warning("Favor selecionar uma forma da lista. Comece digitando alguma letra da forma desejada.");
+                toastr.info("Selecione uma forma da lista. Comece digitando alguma letra da forma desejada.");
                 return;
             } else if (!$scope.Livro.FormaCatalogacaoDescritiva.Descr_Forma_Catalogacao_Descritiva) {
-                toastr.warning("Favor selecionar uma forma da lista. Comece digitando alguma letra da forma desejada.");
+                toastr.info("Selecione uma forma da lista. Comece digitando alguma letra da forma desejada.");
                 return;
             } else if (verificarSeObjetoJaPossuiItem($scope.Livro.CamposLivro.formas_Catalogacao_Descritiva, $scope.Livro.FormaCatalogacaoDescritiva)) {
-                toastr.warning(`O livro já possui a forma de catalogação descritiva: ${$scope.Livro.FormaCatalogacaoDescritiva.Descr_Forma_Catalogacao_Descritiva}.`);
+                toastr.info(`O livro já possui a forma de catalogação descritiva: ${$scope.Livro.FormaCatalogacaoDescritiva.Descr_Forma_Catalogacao_Descritiva}.`);
                 return;
             }
 
@@ -115,13 +115,13 @@
         $scope.adicionarFormasItem = function () {
 
             if (!$scope.Livro.formaItem) {
-                toastr.warning("Favor selecionar uma forma da lista. Comece digitando alguma letra da forma desejada.");
+                toastr.info("Selecione uma forma da lista. Comece digitando alguma letra da forma desejada.");
                 return;
             } else if (!$scope.Livro.formaItem.Descr_Forma_Item) {
-                toastr.warning("Favor selecionar uma forma da lista. Comece digitando alguma letra da forma desejada.");
+                toastr.info("Selecione uma forma da lista. Comece digitando alguma letra da forma desejada.");
                 return;
             } else if (verificarSeObjetoJaPossuiItem($scope.Livro.CamposLivro.formas_Item, $scope.Livro.formaItem)) {
-                toastr.warning(`O livro já possui a forma de item: ${$scope.Livro.formaItem.Descr_Forma_Item}.`);
+                toastr.info(`O livro já possui a forma de item: ${$scope.Livro.formaItem.Descr_Forma_Item}.`);
                 return;
             }
 
@@ -133,13 +133,13 @@
         $scope.adicionarFormaLiteraria = function () {
 
             if (!$scope.Livro.formaLiteraria) {
-                toastr.warning("Favor selecionar uma forma da lista. Comece digitando alguma letra da forma desejada.");
+                toastr.info("Selecione uma forma da lista. Comece digitando alguma letra da forma desejada.");
                 return;
             } else if (!$scope.Livro.formaLiteraria.Descr_Forma_Literaria) {
-                toastr.warning("Favor selecionar uma forma da lista. Comece digitando alguma letra da forma desejada.");
+                toastr.info("Selecione uma forma da lista. Comece digitando alguma letra da forma desejada.");
                 return;
             } else if (verificarSeObjetoJaPossuiItem($scope.Livro.CamposLivro.formas_Literaria, $scope.Livro.formaLiteraria)) {
-                toastr.warning(`O livro já possui a forma literária: ${$scope.Livro.formaLiteraria.Descr_Forma_Literaria}.`);
+                toastr.info(`O livro já possui a forma literária: ${$scope.Livro.formaLiteraria.Descr_Forma_Literaria}.`);
                 return;
             }
 
@@ -151,13 +151,13 @@
         $scope.adicionarFormaMaterial = function () {
 
             if (!$scope.Livro.formaMaterial) {
-                toastr.warning("Favor selecionar uma forma da lista. Comece digitando alguma letra da forma desejada.");
+                toastr.info("Selecione uma forma da lista. Comece digitando alguma letra da forma desejada.");
                 return;
             } else if (!$scope.Livro.formaMaterial.Descr_Forma_Material) {
-                toastr.warning("Favor selecionar uma forma da lista. Comece digitando alguma letra da forma desejada.");
+                toastr.info("Selecione uma forma da lista. Comece digitando alguma letra da forma desejada.");
                 return;
             } else if (verificarSeObjetoJaPossuiItem($scope.Livro.CamposLivro.formas_Material, $scope.Livro.formaMaterial)) {
-                toastr.warning(`O livro já possui a forma material: ${$scope.Livro.formaMaterial.Descr_Forma_Material}.`);
+                toastr.info(`O livro já possui a forma material: ${$scope.Livro.formaMaterial.Descr_Forma_Material}.`);
                 return;
             }
 
@@ -169,13 +169,13 @@
         $scope.adicionarIlustracaoTipo = function () {
 
             if (!$scope.Livro.IlustracaoTipo) {
-                toastr.warning("Favor selecionar um tipo da lista. Comece digitando alguma letra do tipo desejado.");
+                toastr.info("Selecione um tipo da lista. Comece digitando alguma letra do tipo desejado.");
                 return;
             } else if (!$scope.Livro.IlustracaoTipo.Descr_Ilustracao_Tipo) {
-                toastr.warning("Favor selecionar um tipo da lista. Comece digitando alguma letra do tipo desejado.");
+                toastr.info("Selecione um tipo da lista. Comece digitando alguma letra do tipo desejado.");
                 return;
             } else if (verificarSeObjetoJaPossuiItem($scope.Livro.CamposLivro.Ilustracoes_Tipo, $scope.Livro.IlustracaoTipo)) {
-                toastr.warning(`O livro já possui o tipo de ilustração: ${$scope.Livro.IlustracaoTipo.Descr_Ilustracao_Tipo}.`);
+                toastr.info(`O livro já possui o tipo de ilustração: ${$scope.Livro.IlustracaoTipo.Descr_Ilustracao_Tipo}.`);
                 return;
             }
 
@@ -187,13 +187,13 @@
         $scope.adicionarNaturezaConteudo = function () {
 
             if (!$scope.Livro.naturezaConteudo) {
-                toastr.warning("Favor selecionar um item da lista. Comece digitando alguma letra do item desejado.");
+                toastr.info("Selecione um item da lista. Comece digitando alguma letra do item desejado.");
                 return;
             } else if (!$scope.Livro.naturezaConteudo.Descr_Natureza_Conteudo) {
-                toastr.warning("Favor selecionar um item da lista. Comece digitando alguma letra do item desejado.");
+                toastr.info("Selecione um item da lista. Comece digitando alguma letra do item desejado.");
                 return;
             } else if (verificarSeObjetoJaPossuiItem($scope.Livro.CamposLivro.naturezas_Conteudo, $scope.Livro.naturezaConteudo)) {
-                toastr.warning(`O livro já possui a natureza do conteúdo: ${$scope.Livro.naturezaConteudo.Descr_Natureza_Conteudo}.`);
+                toastr.info(`O livro já possui a natureza do conteúdo: ${$scope.Livro.naturezaConteudo.Descr_Natureza_Conteudo}.`);
                 return;
             }
 
@@ -205,13 +205,13 @@
         $scope.adicionarNivelBibliografico = function () {
 
             if (!$scope.Livro.nivelBibliografico) {
-                toastr.warning("Favor selecionar um nível da lista. Comece digitando alguma letra do nível desejado.");
+                toastr.info("Selecione um nível da lista. Comece digitando alguma letra do nível desejado.");
                 return;
             } else if (!$scope.Livro.nivelBibliografico.Descr_Nivel_Bibliografico) {
-                toastr.warning("Favor selecionar um nível da lista. Comece digitando alguma letra do nível desejado.");
+                toastr.info("Selecione um nível da lista. Comece digitando alguma letra do nível desejado.");
                 return;
             } else if (verificarSeObjetoJaPossuiItem($scope.Livro.CamposLivro.niveis_Bibliograficos, $scope.Livro.nivelBibliografico)) {
-                toastr.warning(`O livro já possui o nível bibliográfico: ${$scope.Livro.nivelBibliografico.Descr_Nivel_Bibliografico}.`);
+                toastr.info(`O livro já possui o nível bibliográfico: ${$scope.Livro.nivelBibliografico.Descr_Nivel_Bibliografico}.`);
                 return;
             }
 
@@ -223,13 +223,13 @@
         $scope.adicionarNivelCodificacao = function () {
 
             if (!$scope.Livro.nivelCodificacao) {
-                toastr.warning("Favor selecionar um nível da lista. Comece digitando alguma letra do nível desejado.");
+                toastr.info("Selecione um nível da lista. Comece digitando alguma letra do nível desejado.");
                 return;
             } else if (!$scope.Livro.nivelCodificacao.Descr_Nivel_Codificacao) {
-                toastr.warning("Favor selecionar um nível da lista. Comece digitando alguma letra do nível desejado.");
+                toastr.info("Selecione um nível da lista. Comece digitando alguma letra do nível desejado.");
                 return;
             } else if (verificarSeObjetoJaPossuiItem($scope.Livro.CamposLivro.niveis_Codificacao, $scope.Livro.nivelCodificacao)) {
-                toastr.warning(`O livro já possui o nível de codificação: ${$scope.Livro.nivelCodificacao.Descr_Nivel_Codificacao}.`);
+                toastr.info(`O livro já possui o nível de codificação: ${$scope.Livro.nivelCodificacao.Descr_Nivel_Codificacao}.`);
                 return;
             }
 
@@ -241,13 +241,13 @@
         $scope.adicionarNivelVariasPartes = function () {
 
             if (!$scope.Livro.nivelVariasPartes) {
-                toastr.warning("Favor selecionar um nível da lista. Comece digitando alguma letra do nível desejado.");
+                toastr.info("Selecione um nível da lista. Comece digitando alguma letra do nível desejado.");
                 return;
             } else if (!$scope.Livro.nivelVariasPartes.Descr_Nivel_Varias_Partes) {
-                toastr.warning("Favor selecionar um nível da lista. Comece digitando alguma letra do nível desejado.");
+                toastr.info("Selecione um nível da lista. Comece digitando alguma letra do nível desejado.");
                 return;
             } else if (verificarSeObjetoJaPossuiItem($scope.Livro.CamposLivro.niveis_Varias_Partes, $scope.Livro.nivelVariasPartes)) {
-                toastr.warning(`O livro já possui o nível de várias partes: ${$scope.Livro.nivelVariasPartes.Descr_Nivel_Varias_Partes}.`);
+                toastr.info(`O livro já possui o nível de várias partes: ${$scope.Livro.nivelVariasPartes.Descr_Nivel_Varias_Partes}.`);
                 return;
             }
 
@@ -259,13 +259,13 @@
         $scope.adicionarPublicacaoGovernamentalTipo = function () {
 
             if (!$scope.Livro.publicacaoGovernamentalTipo) {
-                toastr.warning("Favor selecionar um item da lista. Comece digitando alguma letra do item desejado.");
+                toastr.info("Selecione um item da lista. Comece digitando alguma letra do item desejado.");
                 return;
             } else if (!$scope.Livro.publicacaoGovernamentalTipo.Descr_Publicacao_Governamental_Tipo) {
-                toastr.warning("Favor selecionar um item da lista. Comece digitando alguma letra do item desejado.");
+                toastr.info("Selecione um item da lista. Comece digitando alguma letra do item desejado.");
                 return;
             } else if (verificarSeObjetoJaPossuiItem($scope.Livro.CamposLivro.publicacao_Governamental_Tipos, $scope.Livro.publicacaoGovernamentalTipo)) {
-                toastr.warning(`O livro já possui o tipo de publicação governamental: ${$scope.Livro.publicacaoGovernamentalTipo.Descr_Publicacao_Governamental_Tipo}.`);
+                toastr.info(`O livro já possui o tipo de publicação governamental: ${$scope.Livro.publicacaoGovernamentalTipo.Descr_Publicacao_Governamental_Tipo}.`);
                 return;
             }
 
@@ -277,13 +277,13 @@
         $scope.adicionarPublicoAlvo = function () {
 
             if (!$scope.Livro.PublicoAlvo) {
-                toastr.warning("Favor selecionar um item da lista. Comece digitando alguma letra do item desejado.");
+                toastr.info("Selecione um item da lista. Comece digitando alguma letra do item desejado.");
                 return;
             } else if (!$scope.Livro.PublicoAlvo.Descr_Publico_Alvo) {
-                toastr.warning("Favor selecionar um item da lista. Comece digitando alguma letra do item desejado.");
+                toastr.info("Selecione um item da lista. Comece digitando alguma letra do item desejado.");
                 return;
             } else if (verificarSeObjetoJaPossuiItem($scope.Livro.CamposLivro.Publicos_Alvos, $scope.Livro.PublicoAlvo)) {
-                toastr.warning(`O livro já possui público alvo: ${$scope.Livro.publicoAlvo.Descr_Publico_Alvo}.`);
+                toastr.info(`O livro já possui público alvo: ${$scope.Livro.publicoAlvo.Descr_Publico_Alvo}.`);
                 return;
             }
 
@@ -295,13 +295,13 @@
         $scope.adicionarStatusRegistro = function () {
 
             if (!$scope.Livro.statusRegistro) {
-                toastr.warning("Favor selecionar um item da lista. Comece digitando alguma letra do item desejado.");
+                toastr.info("Selecione um item da lista. Comece digitando alguma letra do item desejado.");
                 return;
             } else if (!$scope.Livro.statusRegistro.Descr_Status_Registro) {
-                toastr.warning("Favor selecionar um item da lista. Comece digitando alguma letra do item desejado.");
+                toastr.info("Selecione um item da lista. Comece digitando alguma letra do item desejado.");
                 return;
             } else if (verificarSeObjetoJaPossuiItem($scope.Livro.CamposLivro.status_Registro, $scope.Livro.statusRegistro)) {
-                toastr.warning(`O livro já possui o status: ${$scope.Livro.statusRegistro.Descr_Status_Registro}.`)
+                toastr.info(`O livro já possui o status: ${$scope.Livro.statusRegistro.Descr_Status_Registro}.`)
                 return;
             }
 
@@ -313,13 +313,13 @@
         $scope.adicionarTipoControle = function () {
 
             if (!$scope.Livro.tipoControle) {
-                toastr.warning("Favor selecionar um tipo da lista. Comece digitando alguma letra do tipo desejado.");
+                toastr.info("Selecione um tipo da lista. Comece digitando alguma letra do tipo desejado.");
                 return;
             } else if (!$scope.Livro.tipoControle.Descr_Tipo_Controle) {
-                toastr.warning("Favor selecionar um tipo da lista. Comece digitando alguma letra do tipo desejado.");
+                toastr.info("Selecione um tipo da lista. Comece digitando alguma letra do tipo desejado.");
                 return;
             } else if (verificarSeObjetoJaPossuiItem($scope.Livro.CamposLivro.tipos_Controle, $scope.Livro.tipoControle)) {
-                toastr.warning(`O livro já possui o tipo de controle: ${$scope.Livro.tipoControle.Descr_Tipo_Controle}.`)
+                toastr.info(`O livro já possui o tipo de controle: ${$scope.Livro.tipoControle.Descr_Tipo_Controle}.`)
                 return;
             }
 
@@ -331,13 +331,13 @@
         $scope.adicionarTipoRegistro = function () {
 
             if (!$scope.Livro.tipoRegistro) {
-                toastr.warning("Favor selecionar um tipo da lista. Comece digitando alguma letra do tipo desejado.");
+                toastr.info("Selecione um tipo da lista. Comece digitando alguma letra do tipo desejado.");
                 return;
             } else if (!$scope.Livro.tipoRegistro.Descr_Tipo_Registro) {
-                toastr.warning("Favor selecionar um tipo da lista. Comece digitando alguma letra do tipo desejado.");
+                toastr.info("Selecione um tipo da lista. Comece digitando alguma letra do tipo desejado.");
                 return;
             } else if (verificarSeObjetoJaPossuiItem($scope.Livro.CamposLivro.tipos_Registro, $scope.Livro.tipoRegistro)) {
-                toastr.warning(`O livro já possui o tipo de registro: ${$scope.Livro.tipoControle.Descr_Tipo_Controle}.`)
+                toastr.info(`O livro já possui o tipo de registro: ${$scope.Livro.tipoControle.Descr_Tipo_Controle}.`)
                 return;
             }
 
@@ -449,35 +449,35 @@
 
             if (!livro.Titulo) {
                 seCamposValidos = invalidarCadastroLivro();
-                toastr.warning("O campo Titúlo do livro é obrigatório!");
+                toastr.info("O campo Titúlo do livro é obrigatório!");
                 return;
             }
 
             if (!livro.Autor) {
                 seCamposValidos = invalidarCadastroLivro();
-                toastr.warning("O campo Autor do livro é obrigatório!");
+                toastr.info("O campo Autor do livro é obrigatório!");
                 return;
             }
 
             if (!livro.Ano_Publicacao) {
                 seCamposValidos = invalidarCadastroLivro();
-                toastr.warning("O campo Ano de Publicação do livro é obrigatório!");
+                toastr.info("O campo Ano de Publicação do livro é obrigatório!");
                 return;
             }
 
             if (!livro.Local_Publicacao) {
                 seCamposValidos = invalidarCadastroLivro();
-                toastr.warning("O campo Local de Publicação do livro é obrigatório!");
+                toastr.info("O campo Local de Publicação do livro é obrigatório!");
             }
 
             if (!livro.Qtd_Exemplares) {
                 seCamposValidos = invalidarCadastroLivro();
-                toastr.warning("O campo Qtd. de exemplares do livro é obrigatório");
+                toastr.info("O campo Qtd. de exemplares do livro é obrigatório");
             }
 
             if (livro.Qtd_Exemplares == 0) {
                 seCamposValidos = invalidarCadastroLivro();
-                toastr.warning("O campo Qtd. de exemplares deve ser preenchido corretamente para ser utilizado como controle de saída do livro.");
+                toastr.info("O campo Qtd. de exemplares deve ser preenchido corretamente para ser utilizado como controle de saída do livro.");
             }
 
             return seCamposValidos;

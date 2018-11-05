@@ -1,0 +1,67 @@
+﻿<div ng-init="inicializar()" ng-controller="EmprestimoController">
+    <div id="modalEmprestimo" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-800px" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Registrar Empréstimo</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="well col-lg-12">
+                            <div class="col-lg-12">
+                                <label class="control-label">Usuário: <span ng-bind="retornarNome(emprestimo.usuario)"></span></label>
+                            </div>
+                            <div class="col-lg-12">
+                                <label class="control-label">Livro: <span ng-bind="retornarTitulo(emprestimo.livro)"></span></label>
+                            </div>
+                            <div class="col-lg-12">
+                                <label class="control-label">Data Saída: <span style="color: green;" ng-bind="retornarDataSaida()"></span></label>
+                            </div>
+                            <div class="col-lg-12">
+                                <label class="control-label">Data Devolução: <span ng-bind="retornarDataDevolucao(emprestimo.dias)"></span></label>
+                            </div>
+                            <!--    <div class="form-group">
+                            </div>-->
+                        </div>
+                        <div class="form-group col-lg-5">
+                            <label class="controle-label">Usuário:</label>
+                            <input type="text" class="form-control"
+                                   ng-model="emprestimo.usuario"
+                                   placeholder="Digite o nome do usuário"
+                                   bs-options="usuario.Nome for usuario in TodosUsuarios"
+                                   bs-typeahead />
+                        </div>
+                        <div class="form-group col-lg-5">
+                            <label class="controle-label">Livro:</label>
+                            <input type="text" class="form-control"
+                                   ng-model="emprestimo.livro"
+                                   placeholder="Digite o nome do livro"
+                                   bs-options="livro.Titulo for livro in TodosLivros"
+                                   bs-typeahead />
+                        </div>
+                        <div class="form-group col-lg-2">
+                            <label class="controle-label">Dias:</label>
+                            <input class="form-control" type="number" name="dias" ng-model="emprestimo.dias" />
+                        </div>
+                        <div class="form-group col-lg-12">
+                            <label class="controle-label">Observação:</label>
+                            <input class="form-control" type="text" name="obs" ng-model="emprestimo.obs" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button"
+                           class="btn btn-primary"
+                           value="Salvar"
+                           ng-click="salvarEmprestimo()" />
+                    <input type="button"
+                           class="btn btn-danger"
+                           value="Cancelar"
+                           ng-click="limparEmprestimo()"
+                           data-dismiss="modal" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

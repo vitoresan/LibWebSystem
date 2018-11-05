@@ -1,0 +1,26 @@
+﻿<div ng-init="inicializar()" ng-controller="DevolucaoController">
+    <div id="modalDevolucao" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-800px" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Informações Devolução</h4>
+                </div>
+                <div class="modal-body">
+                    {{devolucao}}
+                </div>
+                <div class="modal-footer">
+                    <input type="button"
+                           class="btn btn-primary"
+                           value="Salvar"
+                           ng-click="salvarEmprestimo()" />
+                    <input type="button"
+                           class="btn btn-danger"
+                           value="Cancelar"
+                           ng-click="limparEmprestimo()"
+                           data-dismiss="modal" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
